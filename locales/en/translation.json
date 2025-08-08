@@ -1,0 +1,58 @@
+{
+  "AccountInactive": "Account is inactive. Please contact support.",
+
+  "UserNotFound": "User not found.",
+  "UserAlreadyLoggedIn": "User is already logged in.",
+  "UserAlreadyLoggedOut": "User is already logged out.",
+  "UserIdInvalid": "User ID is invalid.",
+  "UserIdNotFound": "User ID not found.",
+  "UserCreated": "User created successfully.",
+  "UserLoggedIn": "User logged in successfully.",
+  "UserLoggedOut": "User logged out successfully.",
+  "UserLoggedOutForcefully": "User logged out successfully (forced).",
+
+  "UnitsNotFound": "Could not find any units you're logged in on.",
+
+  "EmailRequired": "Email is required.",
+  "EmailInvalid": "Email is invalid.",
+  "EmailEnterValid": "Please enter a valid email address.",
+  "EmailQueryNotFound": "Email not found.",
+  "EmailAlreadyVerified": "Email is already verified.",
+  "EmailNotVerified": "Email is not verified.",
+
+  "EmailVerified": "Email verified successfully.",
+
+  "UsernameRequired": "Username is required.",
+  "UsernameInvalid": "Username is invalid.",
+  "UsernameMinLength": "Username must be at least 3 characters long.",
+  "UsernameMaxLength": "Username must not exceed 20 characters.",
+  "UsernameTaken": "Username is already taken.",
+
+  "ForenameRequired": "Forename is required.",
+  "ForenameInvalid": "Forename is invalid.",
+  "ForenameMinLength": "Forename must be at least 2 characters long.",
+  "ForenameMaxLength": "Forename must not exceed 50 characters.",
+
+  "SurnameRequired": "Surname is required.",
+  "SurnameInvalid": "Surname is invalid.",
+  "SurnameMinLength": "Surname must be at least 2 characters long.",
+  "SurnameMaxLength": "Surname must not exceed 50 characters.",
+
+  "PasswordRequired": "Password is required.",
+  "PasswordInvalid": "Password is invalid.",
+  "PasswordMinLength": "Password must be at least 8 characters long.",
+  "PasswordMaxLength": "Password must not exceed 100 characters.",
+  "PasswordHashError": "Error hashing password.",
+  "PasswordVerificationFailed": "Password verification failed.",
+  "PasswordMismatch": "Passwords do not match.",
+  "PasswordWrong": "Wrong password.",
+
+  "RouteProtected": "This route is protected. Please log in to access it.",
+
+  "TokenParamNotFound": "Token parameter not found.",
+
+  "RefreshTokenIdInvalid": "Refresh token ID is invalid.",
+  "RefreshTokenRevoked": "Refresh token has been revoked.",
+
+  "ClientIpNotFound": "Client IP not found."
+}
