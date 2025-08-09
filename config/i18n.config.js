@@ -3,6 +3,10 @@ import i18nextBackend from 'i18next-fs-backend'
 import i18nextMiddleware from 'i18next-http-middleware'
 import path from 'path'
 
+/**
+ * Initialize i18next
+ * @see https://www.i18next.com/overview/configuration-options
+ */
 i18next
   .use(i18nextBackend)
   .use(i18nextMiddleware.LanguageDetector)
@@ -18,6 +22,7 @@ i18next
     preload                                 : [ 'en', 'sv' ],
   })
 
+// i18next middleware
 const i18nMiddleware                       = i18nextMiddleware.handle(i18next)
 
 export {

@@ -1,7 +1,7 @@
 import { t } from 'i18next'
 
 /**
- * 
+ * @typedef {Object} ErrorHelper
  */
 const ErrorHelper                           = {}
 
@@ -16,6 +16,7 @@ class CustomError extends Error {
   }
 }
 
+// Authentication Errors
 ErrorHelper.Unauthorized                    = () => new CustomError(t('Unauthorized'), 401)
 
 // Account Errors

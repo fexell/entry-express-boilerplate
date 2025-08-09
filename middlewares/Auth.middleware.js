@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import { v4 as uuidv4 } from 'uuid'
 
+import AuthController from '../controllers/Auth.controller.js'
+
 import RefreshTokenModel from '../models/RefreshToken.model.js'
 import UserModel from '../models/User.model.js'
 
@@ -8,7 +10,6 @@ import CookiesHelper from '../helpers/Cookies.helper.js'
 import ErrorHelper from '../helpers/Error.helper.js'
 import IpHelper from '../helpers/Ip.helper.js'
 import JwtHelper from '../helpers/Jwt.helper.js'
-import AuthController from '../controllers/Auth.controller.js'
 
 /**
  * Middleware for handling authentication and authorization.
@@ -21,7 +22,18 @@ import AuthController from '../controllers/Auth.controller.js'
  * @property {Function} AccountInactive - Checks if the user's account is inactive.
  * @property {Function} RevokedRefreshToken - Checks if the refresh token has been revoked.
  * @property {Function} RoleChecker - Checks if the user has the required role to access the route.
+ * @property {Function} EditPermissionsChecker - Checks whether the user has rights to edit.
  * @property {Function} Authenticate - Authenticates the user based on access or refresh tokens.
+ * 
+ * *****************************************************************************
+ * The middlewares should be run in the following order:
+ * - Authenticate
+ * - RevokedRefreshToken
+ * - AccountInactive
+ * - EmailVerified
+ * - RoleChecker
+ * - EditPermissionsChecker [situational]
+ * *****************************************************************************
  */
 const AuthMiddleware                        = {}
 
@@ -182,9 +194,8 @@ AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, 
       throw ErrorHelper.UserNotFound()
 
     // If role is a string and the user doesn't have the required role
-    if(typeof roles === 'string')
-      if(roles !== user.role)
-        throw ErrorHelper.Unauthorized()
+    if(typeof roles === 'string' && roles !== user.role)
+      throw ErrorHelper.Unauthorized()
 
     // If the user doesn't have the required role
     else if(Array.isArray(roles) && !roles.includes(user.role))
@@ -209,7 +220,7 @@ AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
     const user                              = await UserModel.findById(userId)
 
     // Get the user id from the params
-    const userIdFromParams                  = req.params.id
+    const userIdFromParams                  = req.params?.id
 
     // If the user doesn't exist
     if(!user)

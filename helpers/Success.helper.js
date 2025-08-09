@@ -1,5 +1,14 @@
 import { t } from 'i18next'
 
+/**
+ * @typedef {Object} SuccessHelper
+ * @property {Function} Response - The method for sending a success response.
+ * @property {Function} UserLoggedIn - The method for sending a user is logged in response.
+ * @property {Function} UserLoggedOut - The method for sending a user is logged out response.
+ * @property {Function} UserLoggedOutForcefully - The method for sending a user is logged out forcefully response.
+ * @property {Function} UserCreated - The method for sending a user is created response.
+ * @property {Function} EmailVerified - The method for sending a email is verified response.
+ */
 const SuccessHelper                         = {}
 
 SuccessHelper.Response                      = (res, message = 'Success', data, statusCode = 200) => {

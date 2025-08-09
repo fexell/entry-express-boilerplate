@@ -1,5 +1,8 @@
 import 'dotenv/config'
 
+/**
+ * 
+ */
 const {
   NODE_ENV,
   PORT,
@@ -10,6 +13,9 @@ const {
   MONGO_URI,
 }                                           = process.env
 
+/**
+ * 
+ */
 const dbString                              = MONGO_URI || 'mongodb://localhost:27017/entry-boilerplate'
 
 export {

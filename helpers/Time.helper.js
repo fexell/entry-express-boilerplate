@@ -1,5 +1,15 @@
 
-// Time in readable format
+/**
+ * Time Helper
+ * @typedef {Object} TimeHelper
+ * @property {Number} FiveSeconds - 5 seconds
+ * @property {Number} ThreeMinutes - 3 minutes
+ * @property {Number} OneDay - 1 day
+ * @property {Number} OneWeek - 1 week
+ * @property {Number} OneMonth - 1 month
+ * @property {Number} TwoMonths - 2 months
+ * @property {Number} OneYear - 1 year
+ */
 const TimeHelper                            = {
   FiveSeconds                               : 1000 * 5, // 5 seconds
   ThreeMinutes                              : 1000 * 60 * 3, // 3 minutes

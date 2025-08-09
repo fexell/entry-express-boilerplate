@@ -17,9 +17,14 @@ const UserController                        = {}
 // Retrieves the user's information
 UserController.Get                          = async (req, res, next) => {
   try {
+
+    // Get the user id from the cookie
     const userId                            = CookiesHelper.GetUserIdCookie(req)
+
+    // Retrieve the user's record
     const user                              = await UserModel.findById(userId)
 
+    // Return the response with the user's information
     return res.status(200).json({
       user                                  : {
         id                                  : user._id,
@@ -38,8 +43,11 @@ UserController.Get                          = async (req, res, next) => {
 // Retrieves all users in the database
 UserController.GetAll                       = async (req, res, next) => {
   try {
+
+    // Retrieve all users
     const users                             = await UserModel.find({})
 
+    // Return the response with the users
     return res.status(200).json({
       users                                 : users.map(user => ({
         id                                  : user._id,
@@ -58,6 +66,8 @@ UserController.GetAll                       = async (req, res, next) => {
 // The controller function responsible for creating a user, based on the user's input
 UserController.Create                       = async (req, res, next) => {
   try {
+
+    // Destructure the request body
     const {
       email,
       username,
@@ -67,9 +77,11 @@ UserController.Create                       = async (req, res, next) => {
       confirmPassword,
     }                                       = req.body
 
+    // If password and confirm password do not match
     if(password !== confirmPassword)
       throw ErrorHelper.PasswordMismatch()
 
+    // Create a new user
     const newUser                           = new UserModel({
       email,
       username,
@@ -78,16 +90,20 @@ UserController.Create                       = async (req, res, next) => {
       password,
     })
 
+    // Save the new user
     await newUser.save()
 
+    // Compose the email
     const mail                              = new MailerHelper(
       email,
       'Verify Email',
       `http://localhost:5000/api/auth/email/verify/${ newUser.emailVerificationToken }?email=${ email }`
     )
     
+    // Send the email
     await mail.Send()
 
+    // Return the response with the new user's information
     return res.status(201).json({
       message                               : t('UserCreated'),
       user                                  : {

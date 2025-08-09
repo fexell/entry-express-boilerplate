@@ -4,6 +4,13 @@ import UserController from '../../controllers/User.controller.js'
 
 import AuthMiddleware from '../../middlewares/Auth.middleware.js'
 
+/**
+ * @type {Router}
+ * @description User routes
+ * @constant UserRouter
+ * 
+ * 
+ */
 const UserRouter                            = Router()
 
 UserRouter.get('/', [

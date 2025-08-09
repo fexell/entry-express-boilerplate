@@ -1,5 +1,13 @@
 import mongoose, { Schema } from 'mongoose'
 
+/**
+ * @typedef {Schema} RefreshTokenSchema
+ * @property {String} userId
+ * @property {String} token
+ * @property {String} ipAddress
+ * @property {String} userAgent
+ * @property {Boolean} isRevoked
+ */
 const RefreshTokenSchema                    = new Schema({
   userId                                    : {
     type                                    : Schema.Types.ObjectId,

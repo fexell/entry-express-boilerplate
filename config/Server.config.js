@@ -2,6 +2,9 @@
 
 import { NODE_ENV, PORT } from './Environment.config.js'
 
+/**
+ * Server configuration
+ */
 const ServerConfig                          = {
   port                                      : PORT || 3000,
   trustProxy                                : NODE_ENV === 'production',

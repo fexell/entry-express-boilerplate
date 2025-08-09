@@ -2,6 +2,10 @@ import requestIp from 'request-ip'
 
 import ErrorHelper from './Error.helper.js'
 
+/**
+ * @typedef {Object} IpHelper
+ * @property {Function} GetClientIp - The method for retrieving the client ip
+ */
 const IpHelper                              = {}
 
 IpHelper.GetClientIp                        = (req) => {

@@ -1,7 +1,15 @@
 
-
+/**
+ * @typedef {Object} StringHelper
+ * @property {Function} Capitalize - This method is responsible for capitalizing the first letter of a string.
+ */
 const StringHelper                          = {}
 
+/**
+ * 
+ * @param {string} str - The string to capitalize
+ * @returns {string}
+ */
 StringHelper.Capitalize                     = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }

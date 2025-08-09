@@ -2,6 +2,9 @@ import nodemailer from 'nodemailer'
 
 import 'dotenv/config'
 
+/**
+ * NodeMailer process environment variables
+ */
 const {
   SMTP_HOST,
   SMTP_PORT,
@@ -11,6 +14,7 @@ const {
   REPLY_TO,
 }                                           = process.env
 
+// Transporter
 const transporter                           = nodemailer.createTransport({
   host                                      : SMTP_HOST,
   port                                      : SMTP_PORT,

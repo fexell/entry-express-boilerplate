@@ -4,6 +4,9 @@ import 'winston-mongodb'
 
 import { MONGO_URI } from './Environment.config.js'
 
+/**
+ * Logger configuration
+ */
 const Logger                                = winston.createLogger({
   level                                     : 'info',
   format                                    : winston.format.combine(

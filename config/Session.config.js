@@ -3,6 +3,9 @@ import MongoStore from 'connect-mongo'
 
 import { NODE_ENV, MONGO_URI, SESSION_SECRET } from './Environment.config.js'
 
+/**
+ * Session middleware
+ */
 const SessionMiddleware                     = session({
   secret                                    : SESSION_SECRET || 'default_session_secret',
   resave                                    : true,
