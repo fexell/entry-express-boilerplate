@@ -198,6 +198,34 @@ AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, 
   }
 }
 
+// Checks if the user has the required role to edit their own permissions
+AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
+  try {
+
+    // Get the user id from the cookie
+    const userId                            = CookiesHelper.GetUserIdCookie(req)
+
+    // Retrieve the user's record
+    const user                              = await UserModel.findById(userId)
+
+    // Get the user id from the params
+    const userIdFromParams                  = req.params.id
+
+    // If the user doesn't exist
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    if(user.id !== userIdFromParams || (user.role !== 'moderator' && user.role !== 'admin'))
+      throw ErrorHelper.Unauthorized()
+
+    // Continue to the next middleware, or route
+    return next()
+
+  } catch(error) {
+    return next(error)
+  }
+}
+
 // Authenticates the user based on access or refresh tokens
 AuthMiddleware.Authenticate                 = async (req, res, next) => {
   try {
