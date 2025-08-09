@@ -6,6 +6,10 @@ import transporter, { SENDER_EMAIL, REPLY_TO } from '../config/Mailer.config.js'
  * @class MailerHelper
  * @description Helper class for sending emails
  * @static Send - Sends the email
+ * 
+ * Example:
+ * const mailerHelper = new MailerHelper('no-reply@yourdomain.com', 'abc@def', 'Subject', 'Message')
+ * await mailerHelper.Send()
  */
 class MailerHelper {
 
@@ -14,7 +18,7 @@ class MailerHelper {
    * @param {string} subject - The subject of the email
    * @param {string} message - The message of the email
    */
-  constructor(from, to, subject, message) {
+  constructor(from = 'no-reply@yourdomain.com', to, subject, message) {
     this.options                            = {
       from                                  : from,
       to                                    : to,

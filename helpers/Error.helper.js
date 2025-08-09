@@ -16,7 +16,7 @@ class CustomError extends Error {
   }
 }
 
-// Authentication Errors
+// Authentication/Authorization Errors
 ErrorHelper.Unauthorized                    = () => new CustomError(t('Unauthorized'), 401)
 
 // Account Errors

@@ -27,12 +27,12 @@ import JwtHelper from '../helpers/Jwt.helper.js'
  * 
  * *****************************************************************************
  * The middlewares should be run in the following order:
- * - Authenticate
- * - RevokedRefreshToken
- * - AccountInactive
- * - EmailVerified
- * - RoleChecker
- * - EditPermissionsChecker [situational]
+ * - Authenticate - Authenticate the user first
+ * - RevokedRefreshToken - After authenticate, check if the refresh token has been revoked
+ * - EmailVerified - After, check if the email is verified
+ * - AccountInactive - After, check if the account is inactive
+ * - RoleChecker - After, check if the user has the required role to access the route
+ * - EditPermissionsChecker [situational] - After, check if the user has rights to edit
  * *****************************************************************************
  */
 const AuthMiddleware                        = {}
@@ -42,8 +42,8 @@ AuthMiddleware.AlreadyLoggedIn              = async (req, res, next) => {
   try {
 
     // Get the cookies and their value
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
-    const refreshTokenId                    = CookiesHelper.GetRefreshTokenIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
 
     // Retrieve the refresh token record
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
@@ -69,8 +69,8 @@ AuthMiddleware.AlreadyLoggedOut             = async (req, res, next) => {
   try {
 
     // Get the cookies and their values
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
-    const refreshTokenId                    = CookiesHelper.GetRefreshTokenIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
 
     // Retrieve a refresh token record
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
@@ -96,7 +96,7 @@ AuthMiddleware.EmailVerified                = async (req, res, next) => {
   try {
 
     // Get the user id from the cookie
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
 
     // Get the user based on either user id (if the user is logged in),
     // or by email (if the user is trying to log in)
@@ -129,7 +129,7 @@ AuthMiddleware.AccountInactive              = async (req, res, next) => {
   try {
 
     // Get user id from the cookie
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
 
     // Retrieve the user's record either by user id (logged in user),
     // or by email (if the user is trying to log in)
@@ -184,7 +184,7 @@ AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, 
   try {
 
     // Get the user id from the cookie
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
 
     // Retrieve the user's record
     const user                              = await UserModel.findById(userId)
@@ -214,7 +214,7 @@ AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
   try {
 
     // Get the user id from the cookie
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
 
     // Retrieve the user's record
     const user                              = await UserModel.findById(userId)

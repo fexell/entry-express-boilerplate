@@ -16,15 +16,15 @@ const UserRouter                            = Router()
 UserRouter.get('/', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,
-  AuthMiddleware.AccountInactive,
   AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
 ], UserController.Get)
 
 UserRouter.get('/all', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,
-  AuthMiddleware.AccountInactive,
   AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
   AuthMiddleware.RoleChecker([ 'user', 'admin' ]),
 ], UserController.GetAll)
 
