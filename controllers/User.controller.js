@@ -8,9 +8,9 @@ import MailerHelper from '../helpers/Mailer.helper.js'
 
 /**
  * @typedef {Object} UserController
- * @property {Function} Get - Retrieves the user's information
- * @property {Function} GetAll - Retrieves all users in the database
- * @property {Function} Create - The controller function responsible for creating a user, based on the user's input
+ * @property {Function} Get - Retrieves the user's information.
+ * @property {Function} GetAll - Retrieves all users in the database.
+ * @property {Function} Create - The controller function responsible for creating a user, based on the user's input.
  */
 const UserController                        = {}
 
@@ -93,15 +93,16 @@ UserController.Create                       = async (req, res, next) => {
     // Save the new user
     await newUser.save()
 
-    // Compose the email
+    /* // Compose the email
     const mail                              = new MailerHelper(
+      'no-reply@yourdomain.com',
       email,
       'Verify Email',
       `http://localhost:5000/api/auth/email/verify/${ newUser.emailVerificationToken }?email=${ email }`
     )
     
     // Send the email
-    await mail.Send()
+    await mail.Send() */
 
     // Return the response with the new user's information
     return res.status(201).json({

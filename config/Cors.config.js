@@ -3,7 +3,7 @@ import cors from 'cors'
 /**
  * @typedef {Object} options
  * @property {boolean} credentials
- * @property {string[]} origin
+ * @property {string[]} origin - The allowed origins to trust
  */
 const options                               = {
   credentials                               : true,

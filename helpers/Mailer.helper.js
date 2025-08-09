@@ -14,9 +14,9 @@ class MailerHelper {
    * @param {string} subject - The subject of the email
    * @param {string} message - The message of the email
    */
-  constructor(to, subject, message) {
+  constructor(from, to, subject, message) {
     this.options                            = {
-      from                                  : SENDER_EMAIL,
+      from                                  : from,
       to                                    : to,
       replyTo                               : REPLY_TO,
       subject                               : subject,

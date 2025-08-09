@@ -1,5 +1,6 @@
 import express from 'express'
 import fs from 'fs'
+import { t } from 'i18next'
 import morgan from 'morgan'
 
 import CorsMiddleware from './config/Cors.config.js'
@@ -94,7 +95,7 @@ import IndexRouter from './routes/index.route.js'
 app.use('/api', [ CsrfProtection.csrfSynchronisedProtection ], IndexRouter)
 
 // If the route doesn't exist, return a 404 error
-app.use((req, res) => res.status(404).send('Route not found.'))
+app.use((req, res) => res.status(404).send(t('RouteNotFound'), { url: req.url }))
 
 // Use the error handler middleware
 app.use(ErrorMiddleware.ErrorHandler)
@@ -103,7 +104,7 @@ app.use(ErrorMiddleware.ErrorHandler)
 app.listen(ServerConfig.port, async () => {
   console.log(`Server running in ${ NODE_ENV } mode on port ${ PORT }`)
 
-  // Connect to mongodb
+  // Connect to MongoDB
   await ConnectToDatabase()
 })
 

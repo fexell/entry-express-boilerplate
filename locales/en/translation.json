@@ -50,6 +50,7 @@
   "PasswordWrong": "Wrong password.",
 
   "RouteProtected": "This route is protected. Please log in to access it.",
+  "RouteNotFound": "Route not found.",
 
   "TokenParamNotFound": "Token parameter not found.",
 
