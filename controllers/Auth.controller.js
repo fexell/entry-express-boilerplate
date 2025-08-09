@@ -168,7 +168,7 @@ AuthController.Units                        = async (req, res, next) => {
   try {
 
     // Get the user's id
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    const userId                            = CookiesHelper.GetUserIdCookie(req) || req.userId
 
     // Find refresh token records that belongs to the user; by user id and where isRevoked is set to false
     const units                             = await RefreshTokenModel.find({

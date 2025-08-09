@@ -20,7 +20,8 @@ import AuthController from '../controllers/Auth.controller.js'
  * @property {Function} EmailVerified - Checks if the user's email is verified.
  * @property {Function} AccountInactive - Checks if the user's account is inactive.
  * @property {Function} RevokedRefreshToken - Checks if the refresh token has been revoked.
- * @property {Function} Authenticate - Authenticates the user based on access or refresh tokens
+ * @property {Function} RoleChecker - Checks if the user has the required role to access the route.
+ * @property {Function} Authenticate - Authenticates the user based on access or refresh tokens.
  */
 const AuthMiddleware                        = {}
 
@@ -146,7 +147,7 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
   try {
 
     // Get the refresh token's id from the cookie
-    const refreshTokenId                    = CookiesHelper.GetRefreshTokenIdCookie(req)
+    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
 
     // Attempt to find a refresh token based on the refresh token's id, AND where isRevoked is set to true
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
@@ -160,7 +161,38 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
 
     // Continue to the next middleware, or route
     return next()
-    
+
+  } catch(error) {
+    return next(error)
+  }
+}
+
+// Checks if the user has the required role to access the route
+AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, res, next) => {
+  try {
+
+    // Get the user id from the cookie
+    const userId                            = CookiesHelper.GetUserIdCookie(req)
+
+    // Retrieve the user's record
+    const user                              = await UserModel.findById(userId)
+
+    // If the user doesn't exist
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    // If role is a string and the user doesn't have the required role
+    if(typeof roles === 'string')
+      if(roles !== user.role)
+        throw ErrorHelper.Unauthorized()
+
+    // If the user doesn't have the required role
+    else if(Array.isArray(roles) && !roles.includes(user.role))
+      throw ErrorHelper.Unauthorized()
+
+    // Continue to the next middleware, or route
+    return next()
+
   } catch(error) {
     return next(error)
   }
@@ -246,7 +278,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
         userId                              : userId,
         token                               : newRefreshToken,
         ipAddress                           : IpHelper.GetClientIp(req),
-        userAgent                           : req.headers['user-agent'],
+        userAgent                           : req.headers[ 'user-agent' ],
       })
 
       // Save the new refresh token record
@@ -260,6 +292,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       // Make these available straight away
       req.userId                            = userId
       req.accessToken                       = newAccessToken
+      req.refreshTokenId                    = newRefreshTokenRecord._id
 
       // Continue to the next middleware, or route
       return next()

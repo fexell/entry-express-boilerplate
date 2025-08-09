@@ -1,5 +1,5 @@
 
-
+// Time in readable format
 const TimeHelper                            = {
   FiveSeconds                               : 1000 * 5, // 5 seconds
   ThreeMinutes                              : 1000 * 60 * 3, // 3 minutes

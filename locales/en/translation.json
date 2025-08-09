@@ -1,4 +1,6 @@
 {
+  "Unauthorized": "Unauthorized.",
+
   "AccountInactive": "Account is inactive. Please contact support.",
 
   "UserNotFound": "User not found.",

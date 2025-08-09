@@ -5,6 +5,18 @@ import { t } from 'i18next'
 import PasswordHelper from '../helpers/Password.helper.js'
 import StringHelper from '../helpers/String.helper.js'
 
+/**
+ * @typedef {Schema} UserSchema
+ * @property {String} email
+ * @property {String} username
+ * @property {String} forename
+ * @property {String} surname
+ * @property {String} password
+ * @property {Enum} role
+ * @property {Boolean} isActive
+ * @property {Boolean} isEmailVerified
+ * @property {String} emailVerificationToken
+ */
 const UserSchema                            = new Schema({
   email                                     : {
     type                                    : String,
@@ -120,6 +132,7 @@ const UserSchema                            = new Schema({
   timestamps                                : true,
 })
 
+// Handle and format data before record is saved
 UserSchema.pre('save', async function(next) {
   if(this.isNew || this.isModified('email'))
     this.email                              = this.email.toLowerCase().trim()

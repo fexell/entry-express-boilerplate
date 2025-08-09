@@ -6,8 +6,15 @@ import CookiesHelper from '../helpers/Cookies.helper.js'
 import ErrorHelper from '../helpers/Error.helper.js'
 import MailerHelper from '../helpers/Mailer.helper.js'
 
+/**
+ * @typedef {Object} UserController
+ * @property {Function} Get - Retrieves the user's information
+ * @property {Function} GetAll - Retrieves all users in the database
+ * @property {Function} Create - The controller function responsible for creating a user, based on the user's input
+ */
 const UserController                        = {}
 
+// Retrieves the user's information
 UserController.Get                          = async (req, res, next) => {
   try {
     const userId                            = CookiesHelper.GetUserIdCookie(req)
@@ -28,6 +35,7 @@ UserController.Get                          = async (req, res, next) => {
   }
 }
 
+// Retrieves all users in the database
 UserController.GetAll                       = async (req, res, next) => {
   try {
     const users                             = await UserModel.find({})
@@ -47,6 +55,7 @@ UserController.GetAll                       = async (req, res, next) => {
   }
 }
 
+// The controller function responsible for creating a user, based on the user's input
 UserController.Create                       = async (req, res, next) => {
   try {
     const {
@@ -77,7 +86,7 @@ UserController.Create                       = async (req, res, next) => {
       `http://localhost:5000/api/auth/email/verify/${ newUser.emailVerificationToken }?email=${ email }`
     )
     
-    mail.Send()
+    await mail.Send()
 
     return res.status(201).json({
       message                               : t('UserCreated'),

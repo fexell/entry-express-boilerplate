@@ -5,12 +5,14 @@ import TimeHelper from './Time.helper.js'
 
 import app from '../api.js'
 
+// Cookie Names object
 const CookieNames                           = {
   UserId                                    : 'userId',
   AccessToken                               : 'accessToken',
   RefreshTokenId                            : 'refreshTokenId',
 }
 
+// Normal cookie options
 const CookieOptions                         = (maxAge) => {
   return {
     secure                                  : app.get('NODE_ENV') === 'production',
@@ -20,6 +22,7 @@ const CookieOptions                         = (maxAge) => {
   }
 }
 
+// Signed cookie options
 const SignedCookieOptions                   = (maxAge) => {
   return {
     httpOnly                                : true,
@@ -31,6 +34,18 @@ const SignedCookieOptions                   = (maxAge) => {
   }
 }
 
+/**
+ * @typedef {Object} CookiesHelper
+ * @property {Function} SetCookie - The method for setting normal cookies
+ * @property {Function} SetSignedCookie - Method for setting a signed cookie
+ * @property {Function} SetUserIdCookie - The method for setting  the user id cookie
+ * @property {Function} GetUserIdCookie - The method for retrieving the user id from its cookie
+ * @property {Function} SetAccessTokenCookie - The method for setting the access token cookie
+ * @property {Function} GetAccessTokenCookie - The method for retrieving the access token from its cookie
+ * @property {Function} SetRefreshTokenIdCookie - The method for setting the refresh token's id and storing it in a cookie
+ * @property {Function} GetRefreshTokenIdCookie - The method for retrieving the refresh token's id from its cookie
+ * @property {Function} ClearCookie - The method for clearing a cookie
+ */
 const CookiesHelper                         = {}
 
 // <Set cookies>
@@ -44,6 +59,8 @@ CookiesHelper.SetSignedCookie               = (res, name, value, maxAge) => {
 // </Set cookies>
 
 // User ID Cookies
+// This is set as a normal (unsigned) cookie (also without httpOnly), that the frontend can access
+// It expires in one month (30 days)
 CookiesHelper.SetUserIdCookie               = (res, userId) => {
   return CookiesHelper.SetCookie(res, CookieNames.UserId, userId, TimeHelper.OneMonth)
 }
@@ -56,6 +73,7 @@ CookiesHelper.GetUserIdCookie               = (req) => {
 }
 
 // Access tokens
+// The access token cookie is set as a signed, httpOnly cookie
 CookiesHelper.SetAccessTokenCookie          = (res, token) => {
   return CookiesHelper.SetSignedCookie(res, CookieNames.AccessToken, token, TimeHelper.ThreeMinutes)
 }
@@ -78,6 +96,8 @@ CookiesHelper.GetRefreshTokenIdCookie       = (req) => {
 
 // Clear cookies
 CookiesHelper.ClearCookie                   = (res, name, signed = false) => {
+
+  //
   const options                             = signed ? SignedCookieOptions() : CookieOptions()
 
   return res.clearCookie(name, options)

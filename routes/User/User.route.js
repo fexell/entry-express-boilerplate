@@ -7,13 +7,18 @@ import AuthMiddleware from '../../middlewares/Auth.middleware.js'
 const UserRouter                            = Router()
 
 UserRouter.get('/', [
-  AuthMiddleware.RevokedRefreshToken,
   AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.AccountInactive,
+  AuthMiddleware.EmailVerified,
 ], UserController.Get)
 
 UserRouter.get('/all', [
-  AuthMiddleware.RevokedRefreshToken,
   AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.AccountInactive,
+  AuthMiddleware.EmailVerified,
+  AuthMiddleware.RoleChecker([ 'user', 'admin' ]),
 ], UserController.GetAll)
 
 UserRouter.post('/', UserController.Create)

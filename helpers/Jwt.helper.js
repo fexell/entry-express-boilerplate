@@ -2,8 +2,14 @@ import jwt from 'jsonwebtoken'
 
 import app from '../api.js'
 
+/**
+ * @typedef {Object} JwtHelper
+ * @property {Function} Options - The method to set the options for the jwt
+ * @property {Function} Sign - A helper function to setting a jwt
+ */
 const JwtHelper                             = {}
 
+// Options for the jwt
 JwtHelper.Options                           = (expiresIn, jwtId) => {
   return {
     issuer                                  : 'EntryBoilerplate',
@@ -13,6 +19,7 @@ JwtHelper.Options                           = (expiresIn, jwtId) => {
   }
 }
 
+// Helper method for setting the jwt
 JwtHelper.Sign                              = (payload, expiresIn, jwtId) => {
   return jwt.sign(payload, {
     key: app.get('PRIVATE_KEY'),
@@ -20,9 +27,11 @@ JwtHelper.Sign                              = (payload, expiresIn, jwtId) => {
   }, JwtHelper.Options(expiresIn, jwtId))
 }
 
+// Methods for signing (generating) the access- and refresh token
 JwtHelper.SignAccessToken                   = (payload, jwtId) => JwtHelper.Sign({ userId: payload }, '3m', jwtId)
 JwtHelper.SignRefreshToken                  = (payload) => JwtHelper.Sign({ userId: payload }, '30d')
 
+// Method to verify the jwt
 JwtHelper.VerifyToken                       = (token, expiresIn, jwtId) => {
   try {
     return jwt.verify(token, app.get('PUBLIC_KEY'), JwtHelper.Options(expiresIn, jwtId))
@@ -30,6 +39,8 @@ JwtHelper.VerifyToken                       = (token, expiresIn, jwtId) => {
     throw new Error('Invalid token')
   }
 }
+
+// Methods for verifying the access- and refresh token
 JwtHelper.VerifyAccessToken                 = (token, jwtId) => JwtHelper.VerifyToken(token, '3m', jwtId)
 JwtHelper.VerifyRefreshToken                = (token) => JwtHelper.VerifyToken(token, '30d')
 

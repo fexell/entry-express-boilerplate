@@ -7,9 +7,10 @@ import AuthMiddleware from '../../middlewares/Auth.middleware.js'
 const AuthRouter                            = Router()
 
 AuthRouter.get('/units', [
+  AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
   AuthMiddleware.AccountInactive,
   AuthMiddleware.EmailVerified,
-  AuthMiddleware.Authenticate,
 ], AuthController.Units)
 
 AuthRouter.post('/login', [
