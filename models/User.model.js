@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import mongoose, { Schema } from 'mongoose'
 import { t } from 'i18next'
 
+import ErrorHelper from '../helpers/Error.helper.js'
 import PasswordHelper from '../helpers/Password.helper.js'
 import StringHelper from '../helpers/String.helper.js'
 

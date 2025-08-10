@@ -12,6 +12,7 @@
   "UserLoggedIn": "User logged in successfully.",
   "UserLoggedOut": "User logged out successfully.",
   "UserLoggedOutForcefully": "User logged out successfully (forced).",
+  "UserNothingToUpdate": "You haven't updated anything.",
 
   "UserUpdated": "User updated successfully.",
 

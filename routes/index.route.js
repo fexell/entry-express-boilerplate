@@ -16,7 +16,7 @@ const IndexRouter                           = Router()
 IndexRouter.use('/csrf', CsrfRouter)
 
 // User routes
-IndexRouter.use('/user', multer().array(), UserRouter)
+IndexRouter.use('/user', multer().none(), UserRouter)
 
 // Auth routes
 IndexRouter.use('/auth', multer().array(), AuthRouter)

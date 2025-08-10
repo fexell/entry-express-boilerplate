@@ -5,6 +5,7 @@ import UserModel from '../models/User.model.js'
 import CookiesHelper from '../helpers/Cookies.helper.js'
 import ErrorHelper from '../helpers/Error.helper.js'
 import MailerHelper from '../helpers/Mailer.helper.js'
+import StringHelper from '../helpers/String.helper.js'
 
 /**
  * @typedef {Object} UserController
@@ -142,9 +143,16 @@ UserController.Edit                         = async (req, res, next) => {
     if(!user)
       throw ErrorHelper.UserNotFound()
 
+    const originalUserData                  = {
+      email                                 : user.email,
+      username                              : user.username,
+      forename                              : user.forename,
+      surname                               : user.surname,
+    }
+
     // Update the user's email if it's set and is different from the current email
     if(email && email !== user.email)
-      user.email                            = email
+      user.email                            = email.toLowerCase().trim()
 
     // Update the user's username if it's set and is different from the current username
     if(username && username !== user.username)
@@ -152,11 +160,19 @@ UserController.Edit                         = async (req, res, next) => {
 
     // Update the user's forename if it's set and is different from the current forename
     if(forename && forename !== user.forename)
-      user.forename                         = forename
+      user.forename                         = StringHelper.Capitalize(forename.trim())
 
     // Update the user's surname if it's set and is different from the current surname
     if(surname && surname !== user.surname)
-      user.surname                          = surname
+      user.surname                          = StringHelper.Capitalize(surname.trim())
+
+    if(
+      user.email === originalUserData.email &&
+      user.username === originalUserData.username &&
+      user.forename === originalUserData.forename &&
+      user.surname === originalUserData.surname
+    )
+      throw ErrorHelper.UserNothingToUpdate()
 
     // Save the user
     await user.save()

@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser'
 import express from 'express'
 import fs from 'fs'
 import { t } from 'i18next'
@@ -79,6 +80,9 @@ app.use(morgan(':method :url :status :ipAddressOrUserId :user-agent :response-ti
 }))
 
 // Use all the middlewares
+app.use(bodyParser.urlencoded())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(CorsMiddleware)
 app.use(CookieParserMiddleware)
 app.use(i18nMiddleware)
@@ -86,8 +90,6 @@ app.use(Limiter)
 app.use(SecurityMiddlewares())
 app.use(SessionMiddleware)
 app.use(SlowDownLimiter)
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
 
 // Routes
 import IndexRouter from './routes/index.route.js'

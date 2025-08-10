@@ -30,6 +30,7 @@ ErrorHelper.UserAlreadyLoggedOut            = () => new CustomError(t('UserAlrea
 ErrorHelper.UserIdInvalid                   = () => new CustomError(t('UserIdInvalid'), 400)
 ErrorHelper.UserIdNotFound                  = () => new CustomError(t('UserIdNotFound'), 404)
 ErrorHelper.UserLoggedOutForcefully         = () => new CustomError(t('UserLoggedOutForcefully'), 400)
+ErrorHelper.UserNothingToUpdate             = () => new CustomError(t('UserNothingToUpdate'), 400)
 
 // Target ID Errors
 ErrorHelper.TargetIdNotFound                = () => new CustomError(t('TargetIdNotFound'), 404)
