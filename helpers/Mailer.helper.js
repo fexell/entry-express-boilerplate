@@ -14,6 +14,8 @@ import transporter, { SENDER_EMAIL, REPLY_TO } from '../config/Mailer.config.js'
 class MailerHelper {
 
   /**
+   * Creates a new instance of MailerHelper
+   * @param {string} from - The email address to send the email from
    * @param {string} to - The email address to send the email to
    * @param {string} subject - The subject of the email
    * @param {string} message - The message of the email

@@ -273,6 +273,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
 
       // Make the access token available straight away
       req.accessToken                       = accessToken
+      req.refreshTokenId                    = CookiesHelper.GetRefreshTokenIdCookie(req)
 
       // Continue to the next middleware or route
       return next()
@@ -312,7 +313,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       const newAccessToken                  = JwtHelper.SignAccessToken(userId, jwtId)
       const newRefreshToken                 = JwtHelper.SignRefreshToken(userId)
 
-      // Make a new refresh token record
+      // Make a new refresh token record (for rotating the refresh token)
       const newRefreshTokenRecord           = RefreshTokenModel({
         userId                              : userId,
         token                               : newRefreshToken,

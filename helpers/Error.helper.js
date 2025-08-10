@@ -2,6 +2,7 @@ import { t } from 'i18next'
 
 /**
  * @typedef {Object} ErrorHelper
+ * 
  */
 const ErrorHelper                           = {}
 

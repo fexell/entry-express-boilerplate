@@ -50,8 +50,8 @@ const UserSchema                            = new Schema({
     validate                                : {
       validator                             : async function(value) {
         const existingUser                  = await this.constructor.findOne({
-          username: {
-            $regex: new RegExp(`^${ value }$`, 'i')
+          username                          : {
+            $regex                          : new RegExp(`^${ value }$`, 'i')
           }
         })
 
