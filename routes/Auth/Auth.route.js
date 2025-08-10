@@ -38,6 +38,13 @@ AuthRouter.put('/email/verify/:token', [
   AuthMiddleware.EmailVerified,
 ], AuthController.VerifyEmail)
 
+AuthRouter.put('/password/change', [
+  AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
+], AuthController.ChangePassword)
+
 export {
   AuthRouter as default,
 }

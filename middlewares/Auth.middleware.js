@@ -223,23 +223,11 @@ AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
     if(!user)
       throw ErrorHelper.UserNotFound()
 
-    // Get the target user id
-    const targetUserId                      = req.params.userId || req.params.id || req.body?.userId || req.body?.id
+    const targetUserId                      = req.params.id || req.params.userId
 
-    // If the target user id is invalid
-    if(!targetUserId)
-      throw ErrorHelper.TargetIdNotFound()
-
-    else if(!mongoose.Types.ObjectId.isValid(targetUserId))
-      throw ErrorHelper.TargetIdInvalid()
-
-    // Is the user trying to update their own data?
-    const isSelf                            = user._id.toString() === targetUserId
-
-    if(!isSelf && ![ 'moderator', 'admin' ].includes(user.role))
+    if(userId !== targetUserId || ![ 'moderator', 'admin' ].includes(user.role))
       throw ErrorHelper.Unauthorized()
 
-    // Continue to the next middleware, or route
     return next()
 
   } catch(error) {

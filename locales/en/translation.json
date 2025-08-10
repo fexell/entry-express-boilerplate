@@ -11,7 +11,7 @@
   "UserCreated": "User created successfully.",
   "UserLoggedIn": "User logged in successfully.",
   "UserLoggedOut": "User logged out successfully.",
-  "UserLoggedOutForcefully": "User logged out successfully (forced).",
+  "UserLoggedOutForcefully": "You have been forcefully logged out.",
   "UserNothingToUpdate": "You haven't updated anything.",
 
   "UserUpdated": "User updated successfully.",
@@ -47,6 +47,8 @@
   "SurnameMaxLength": "Surname must not exceed 50 characters.",
 
   "PasswordRequired": "Password is required.",
+  "PasswordNewRequired": "New password is required.",
+  "PasswordNewConfirmRequired": "New password confirmation is required.",
   "PasswordInvalid": "Password is invalid.",
   "PasswordMinLength": "Password must be at least 8 characters long.",
   "PasswordMaxLength": "Password must not exceed 100 characters.",
@@ -54,6 +56,9 @@
   "PasswordVerificationFailed": "Password verification failed.",
   "PasswordMismatch": "Passwords do not match.",
   "PasswordWrong": "Wrong password.",
+  "PasswordEqualsNewPassword": "Your new password cannot be the same as your current password.",
+
+  "PasswordChanged": "Password changed successfully.",
 
   "RouteProtected": "This route is protected. Please log in to access it.",
   "RouteNotFound": "Route not found.",

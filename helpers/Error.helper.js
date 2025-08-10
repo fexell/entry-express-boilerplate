@@ -68,6 +68,8 @@ ErrorHelper.SurnameMaxLength                = () => new CustomError(t('SurnameMa
 
 // Password Errors
 ErrorHelper.PasswordRequired                = () => new CustomError(t('PasswordRequired'), 400)
+ErrorHelper.PasswordNewRequired             = () => new CustomError(t('PasswordNewRequired'), 400)
+ErrorHelper.PasswordNewConfirmRequired      = () => new CustomError(t('PasswordNewConfirmRequired'), 400)
 ErrorHelper.PasswordInvalid                 = () => new CustomError(t('PasswordInvalid'), 400)
 ErrorHelper.PasswordMinLength               = () => new CustomError(t('PasswordMinLength'), 400)
 ErrorHelper.PasswordMaxLength               = () => new CustomError(t('PasswordMaxLength'), 400)
@@ -75,6 +77,7 @@ ErrorHelper.PasswordHashError               = () => new CustomError(t('PasswordH
 ErrorHelper.PasswordVerificationFailed      = () => new CustomError(t('PasswordVerificationFailed'), 401)
 ErrorHelper.PasswordMismatch                = () => new CustomError(t('PasswordMismatch'), 400)
 ErrorHelper.PasswordWrong                   = () => new CustomError(t('PasswordWrong'), 401)
+ErrorHelper.PasswordEqualsNewPassword       = () => new CustomError(t('PasswordEqualsNewPassword'), 400)
 
 // Route Errors
 ErrorHelper.RouteProtected                  = () => new CustomError(t('RouteProtected'), 401)

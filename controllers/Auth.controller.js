@@ -190,6 +190,67 @@ AuthController.Units                        = async (req, res, next) => {
   }
 }
 
+// Change the user's password
+AuthController.ChangePassword               = async (req, res, next) => {
+  try {
+
+    // Get the user's id
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+
+    // Find the user record by user id
+    const user                              = await UserModel.findById(userId)
+
+    // If the user could not be found
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    // Get the password, new password, and confirm new password
+    const {
+      password,
+      newPassword,
+      confirmNewPassword,
+    }                                       = req.body
+
+    // If password field is missing/not filled in
+    if(!password)
+      throw ErrorHelper.PasswordRequired()
+
+    // Else if the new password field is missing/not filled in
+    else if(!newPassword)
+      throw ErrorHelper.PasswordNewRequired()
+
+    // Else if the confirm new password field is missing/not filled in
+    else if(!confirmNewPassword)
+      throw ErrorHelper.PasswordNewConfirmRequired()
+
+    // Else if the new password and confirm new password do not match
+    if(newPassword !== confirmNewPassword)
+      throw ErrorHelper.PasswordMismatch()
+
+    // Else if the new password is the same as the current password
+    else if(password === newPassword)
+      throw ErrorHelper.PasswordEqualsNewPassword()
+
+    // If the password is incorrect
+    if(!await PasswordHelper.Verify(password, user.password))
+      throw ErrorHelper.PasswordWrong()
+
+    // Set the new password
+    user.password                           = newPassword
+
+    // Attempt to save the user
+    await user.save()
+
+    // Return with a success
+    return res.status(200).json({
+      message                               : t('PasswordChanged'),
+    })
+
+  } catch(error) {
+    return next(error)
+  }
+}
+
 export {
   AuthController as default,
 }
