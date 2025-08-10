@@ -134,8 +134,14 @@ const UserSchema                            = new Schema({
 
 // Handle and format data before record is saved
 UserSchema.pre('save', async function(next) {
-  if(this.isNew || this.isModified('email'))
+  if(this.isNew || this.isModified('email')) {
     this.email                              = this.email.toLowerCase().trim()
+
+    if(this.isModified('email')) {
+      this.isEmailVerified                  = false
+      this.emailVerificationToken           = crypto.randomBytes(32).toString('hex')
+    }
+  }
 
   if(this.isNew || this.isModified('forename'))
     this.forename                           = StringHelper.Capitalize(this.forename.trim())

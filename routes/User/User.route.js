@@ -20,6 +20,14 @@ UserRouter.get('/', [
   AuthMiddleware.AccountInactive,
 ], UserController.Get)
 
+UserRouter.put('/:userId', [
+  AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
+  AuthMiddleware.EditPermissionsChecker,
+], UserController.Edit)
+
 UserRouter.get('/all', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,

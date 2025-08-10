@@ -121,6 +121,62 @@ UserController.Create                       = async (req, res, next) => {
   }
 }
 
+UserController.Edit                         = async (req, res, next) => {
+  try {
+
+    // Destructure the request body
+    const {
+      email,
+      username,
+      forename,
+      surname
+    }                                       = req.body
+
+    // Get the user id
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+
+    // Retrieve the user
+    const user                              = await UserModel.findById(userId)
+
+    // If the user doesn't exist
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    // Update the user's email if it's set and is different from the current email
+    if(email && email !== user.email)
+      user.email                            = email
+
+    // Update the user's username if it's set and is different from the current username
+    if(username && username !== user.username)
+      user.username                         = username
+
+    // Update the user's forename if it's set and is different from the current forename
+    if(forename && forename !== user.forename)
+      user.forename                         = forename
+
+    // Update the user's surname if it's set and is different from the current surname
+    if(surname && surname !== user.surname)
+      user.surname                          = surname
+
+    // Save the user
+    await user.save()
+
+    // Return the response
+    return res.status(200).json({
+      message                               : t('UserUpdated'),
+      user                                  : {
+        id                                  : user._id,
+        email                               : user.email,
+        username                            : user.username,
+        forename                            : user.forename,
+        surname                             : user.surname,
+      },
+    })
+  } catch(error) {
+    return next(error)
+  }
+}
+
 export {
   UserController as default,
 }
