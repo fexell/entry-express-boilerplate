@@ -143,13 +143,6 @@ UserController.Edit                         = async (req, res, next) => {
     if(!user)
       throw ErrorHelper.UserNotFound()
 
-    const originalUserData                  = {
-      email                                 : user.email,
-      username                              : user.username,
-      forename                              : user.forename,
-      surname                               : user.surname,
-    }
-
     // Update the user's email if it's set and is different from the current email
     if(email && email !== user.email)
       user.email                            = email.toLowerCase().trim()
@@ -165,14 +158,6 @@ UserController.Edit                         = async (req, res, next) => {
     // Update the user's surname if it's set and is different from the current surname
     if(surname && surname !== user.surname)
       user.surname                          = StringHelper.Capitalize(surname.trim())
-
-    if(
-      user.email === originalUserData.email &&
-      user.username === originalUserData.username &&
-      user.forename === originalUserData.forename &&
-      user.surname === originalUserData.surname
-    )
-      throw ErrorHelper.UserNothingToUpdate()
 
     // Save the user
     await user.save()

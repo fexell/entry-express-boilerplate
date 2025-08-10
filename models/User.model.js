@@ -138,6 +138,7 @@ UserSchema.pre('save', async function(next) {
   if(this.isNew || this.isModified('email')) {
     this.email                              = this.email.toLowerCase().trim()
 
+    // Generate a new email verification token if the email is modified
     if(this.isModified('email')) {
       this.isEmailVerified                  = false
       this.emailVerificationToken           = crypto.randomBytes(32).toString('hex')
@@ -152,6 +153,11 @@ UserSchema.pre('save', async function(next) {
 
   if(this.isNew || this.isModified('password'))
     this.password                           = await PasswordHelper.Hash(this.password)
+
+  const modifiedPaths                       = this.modifiedPaths()
+
+  if(modifiedPaths.length === 0)
+    return next(new Error(t('UserNothingToUpdate')))
 
   next()
 })
