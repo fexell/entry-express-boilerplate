@@ -219,14 +219,31 @@ AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
     // Retrieve the user's record
     const user                              = await UserModel.findById(userId)
 
-    // Get the user id from the params
-    const userIdFromParams                  = req.params?.id
-
     // If the user doesn't exist
     if(!user)
       throw ErrorHelper.UserNotFound()
 
-    if(user.id !== userIdFromParams || (user.role !== 'moderator' && user.role !== 'admin'))
+    // Get the user id from the params
+    const userIdFromParams                  = req.params?.userId
+
+    // If the user id from the params doesn't exist
+    if(!userIdFromParams) {
+      if(![ 'moderator', 'admin' ].includes(user.role))
+        throw ErrorHelper.Unauthorized() // If the user doesn't have the required role
+
+      // Continue to the next middleware, or route
+      return next()
+    }
+
+    // Check if the user is trying to edit their own permissions
+    const isSelfEdit                        = user._id.toString() === userIdFromParams
+
+    // If the user is NOT trying to edit their own permissions
+    if(!isSelfEdit)
+      throw ErrorHelper.Unauthorized()
+
+    // If the user doesn't have the required role
+    if(![ 'moderator', 'admin' ].includes(user.role))
       throw ErrorHelper.Unauthorized()
 
     // Continue to the next middleware, or route
