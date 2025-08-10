@@ -31,6 +31,10 @@ ErrorHelper.UserIdInvalid                   = () => new CustomError(t('UserIdInv
 ErrorHelper.UserIdNotFound                  = () => new CustomError(t('UserIdNotFound'), 404)
 ErrorHelper.UserLoggedOutForcefully         = () => new CustomError(t('UserLoggedOutForcefully'), 400)
 
+// Target ID Errors
+ErrorHelper.TargetIdNotFound                = () => new CustomError(t('TargetIdNotFound'), 404)
+ErrorHelper.TargetIdInvalid                 = () => new CustomError(t('TargetIdInvalid'), 400)
+
 // Unit Errors
 ErrorHelper.UnitsNotFound                   = () => new CustomError(t('UnitsNotFound'), 404)
 

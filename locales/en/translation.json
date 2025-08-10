@@ -12,7 +12,11 @@
   "UserLoggedIn": "User logged in successfully.",
   "UserLoggedOut": "User logged out successfully.",
   "UserLoggedOutForcefully": "User logged out successfully (forced).",
+
   "UserUpdated": "User updated successfully.",
+
+  "TargetIdNotFound": "Target user ID not found.",
+  "TargetIdInvalid": "Target user ID is invalid.",
 
   "UnitsNotFound": "Could not find any units you're logged in on.",
 

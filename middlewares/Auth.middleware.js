@@ -228,10 +228,10 @@ AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
 
     // If the target user id is invalid
     if(!targetUserId)
-      throw ErrorHelper.UserIdNotFound()
+      throw ErrorHelper.TargetIdNotFound()
 
     else if(!mongoose.Types.ObjectId.isValid(targetUserId))
-      throw ErrorHelper.UserIdInvalid()
+      throw ErrorHelper.TargetIdInvalid()
 
     // Is the user trying to update their own data?
     const isSelf                            = user._id.toString() === targetUserId
