@@ -169,7 +169,7 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
 
     // If a refresh token record was found
     if(refreshTokenRecord)
-      throw ErrorHelper.RefreshTokenRevoked()
+      return AuthController.Logout(req, res, next, true)
 
     // Continue to the next middleware, or route
     return next()
