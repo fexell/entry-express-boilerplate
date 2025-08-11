@@ -12,8 +12,12 @@ UserHelper.GetUserById                      = async (req, includePassword = fals
   // Get the user's id
   const userIdFromCookie                    = req.userId || CookiesHelper.GetUserIdCookie(req)
 
-  // If the user id cookie couldn't be found or is invalid
-  if(!userIdFromCookie || !mongoose.isValidObjectId(userIdFromCookie))
+  // If the user id cookie couldn't be found
+  if(!userIdFromCookie)
+    throw ErrorHelper.UserIdNotFound()
+
+  // If the user id cookie is invalid
+  else if(!mongoose.isValidObjectId(userIdFromCookie))
     throw ErrorHelper.UserIdInvalid()
 
   // Retrieve the user's record
