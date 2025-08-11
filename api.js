@@ -65,10 +65,11 @@ app.set('trust proxy', ServerConfig.trustProxy)
 app.disable('x-powered-by')
 
 // Morgan
-morgan.token('ipAddressOrUserId', (req) => CookiesHelper.GetUserIdCookie(req) || IpHelper.GetClientIp(req))
+morgan.token('ipAddress', (req) => IpHelper.GetClientIp(req))
+morgan.token('userId', (req) => req.userId || null)
 morgan.token('status', (req, res) => res.statusCode)
 
-app.use(morgan(':method :url :status :ipAddressOrUserId :user-agent :response-time', {
+app.use(morgan(':method :url :status :ipAddress :userId :user-agent :response-time', {
   stream                                    : {
     write                                   : async (message) => {
       // Extract status code from the message
@@ -77,9 +78,10 @@ app.use(morgan(':method :url :status :ipAddressOrUserId :user-agent :response-ti
         method                              : log[ 0 ],
         url                                 : log[ 1 ],
         status                              : Number(log[ 2 ]),
-        ipAddressOrUserId                   : log[ 3 ],
-        userAgent                           : log[ 4 ],
-        responseTime                        : log[ 5 ],
+        ipAddress                           : log[ 3 ],
+        userId                              : log[ 4 ],
+        userAgent                           : log[ 5 ],
+        responseTime                        : log[ 6 ],
       }
 
       await LogModel.create(logObject)

@@ -13,8 +13,12 @@ const LogSchema                             = new Schema({
     type                                    : Number,
     required                                : true,
   },
-  ipAddressOrUserId                         : {
+  ipAddress                                 : {
     type                                    : String,
+    required                                : true,
+  },
+  userId                                    : {
+    type                                    : Schema.Types.ObjectId || null,
     required                                : true,
   },
   userAgent                                 : {
