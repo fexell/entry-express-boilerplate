@@ -135,6 +135,8 @@ const UserSchema                            = new Schema({
 
 // Handle and format data before record is saved
 UserSchema.pre('save', async function(next) {
+
+  // If a new user or email is modified, then lowercase the email
   if(this.isNew || this.isModified('email')) {
     this.email                              = this.email.toLowerCase().trim()
 
@@ -145,15 +147,19 @@ UserSchema.pre('save', async function(next) {
     }
   }
 
+  // If a new user or username is modified, then capitalize the username
   if(this.isNew || this.isModified('forename'))
     this.forename                           = StringHelper.Capitalize(this.forename.trim())
 
+  // If a new user or username is modified, then capitalize the username
   if(this.isNew || this.isModified('surname'))
     this.surname                            = StringHelper.Capitalize(this.surname.trim())
 
+  // If a new user or password is modified, then hash the password
   if(this.isNew || this.isModified('password'))
     this.password                           = await PasswordHelper.Hash(this.password)
 
+  // If no fields are modified
   if(this.modifiedPaths().length === 0)
     return next(new Error(t('UserNothingToUpdate')))
 
