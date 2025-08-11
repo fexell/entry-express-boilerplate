@@ -26,7 +26,6 @@ UserController.Get                          = async (req, res, next) => {
     // Return the response with the user's information
     return res.status(200).json({
       user                                  : {
-        id                                  : user._id,
         email                               : user.email,
         username                            : user.username,
         forename                            : user.forename,
@@ -49,7 +48,6 @@ UserController.GetAll                       = async (req, res, next) => {
     // Return the response with the users
     return res.status(200).json({
       users                                 : users.map(user => ({
-        id                                  : user._id,
         email                               : user.email,
         username                            : user.username,
         forename                            : user.forename,
@@ -107,7 +105,6 @@ UserController.Create                       = async (req, res, next) => {
     return res.status(201).json({
       message                               : t('UserCreated'),
       user                                  : {
-        id                                  : user._id,
         email                               : user.email,
         username                            : user.username,
         forename                            : user.forename,
@@ -156,7 +153,6 @@ UserController.Edit                         = async (req, res, next) => {
     return res.status(200).json({
       message                               : t('UserUpdated'),
       user                                  : {
-        id                                  : user._id,
         email                               : user.email,
         username                            : user.username,
         forename                            : user.forename,
