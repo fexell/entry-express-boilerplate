@@ -66,7 +66,7 @@ app.disable('x-powered-by')
 
 // Morgan
 morgan.token('ipAddress', (req) => IpHelper.GetClientIp(req))
-morgan.token('userId', (req) => req.userId || null)
+morgan.token('userId', (req) => req.userId || CookiesHelper.GetUserIdCookie(req) || 'unknown')
 morgan.token('status', (req, res) => res.statusCode)
 
 app.use(morgan(':method :url :status :ipAddress :userId :user-agent :response-time', {
@@ -85,8 +85,8 @@ app.use(morgan(':method :url :status :ipAddress :userId :user-agent :response-ti
       }
 
       await LogModel.create(logObject)
-    }
-  }
+    },
+  },
 }))
 
 // Use all the middlewares
@@ -108,7 +108,7 @@ import IndexRouter from './routes/index.route.js'
 app.use('/api', [ CsrfProtection.csrfSynchronisedProtection ], IndexRouter)
 
 // If the route doesn't exist, return a 404 error
-app.use((req, res) => res.status(404).send(t('RouteNotFound'), { url: req.url }))
+app.use((req, res, next) => res.status(404).send(t('RouteNotFound'), { url: req.url }))
 
 // Use the error handler middleware
 app.use(ErrorMiddleware.ErrorHandler)

@@ -18,8 +18,9 @@ const LogSchema                             = new Schema({
     required                                : true,
   },
   userId                                    : {
-    type                                    : Schema.Types.ObjectId || null,
-    required                                : true,
+    type                                    : String,
+    required                                : false,
+    default                                 : null,
   },
   userAgent                                 : {
     type                                    : String,
