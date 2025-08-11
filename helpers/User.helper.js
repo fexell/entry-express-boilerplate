@@ -7,7 +7,7 @@ import CookiesHelper from './Cookies.helper.js'
 const UserHelper                            = {}
 
 // Retrieves the user's record
-UserHelper.GetUserById                      = async (req) => {
+UserHelper.GetUserById                      = async (req, includePassword = false) => {
 
   // Get the user's id
   const userIdFromCookie                    = req.userId || CookiesHelper.GetUserIdCookie(req)
@@ -17,7 +17,9 @@ UserHelper.GetUserById                      = async (req) => {
     throw ErrorHelper.UserIdInvalid()
 
   // Retrieve the user's record
-  const findUserById                        = await UserModel.findById(userIdFromCookie)
+  const findUserById                        = includePassword
+    ? await UserModel.findById(userIdFromCookie).select('+password')
+    : await UserModel.findById(userIdFromCookie)
 
   // If the user could not be found
   if(!findUserById)

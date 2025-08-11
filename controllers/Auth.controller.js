@@ -1,3 +1,4 @@
+import { t } from 'i18next'
 import sanitize from 'mongo-sanitize'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -10,6 +11,7 @@ import IpHelper from '../helpers/Ip.helper.js'
 import JwtHelper from '../helpers/Jwt.helper.js'
 import PasswordHelper from '../helpers/Password.helper.js'
 import SuccessHelper from '../helpers/Success.helper.js'
+import UserHelper from '../helpers/User.helper.js'
 
 /**
  * @typedef {Object} AuthController
@@ -17,6 +19,7 @@ import SuccessHelper from '../helpers/Success.helper.js'
  * @property {Function} Logout - Logs the user out
  * @property {Function} VerifyEmail - Verifies the user's email
  * @property {Function} Units - Returns the units that the user is logged in on
+ * @property {Function} ChangePassword - Changes the user's password
  */
 const AuthController                        = {}
 
@@ -198,15 +201,7 @@ AuthController.Units                        = async (req, res, next) => {
 AuthController.ChangePassword               = async (req, res, next) => {
   try {
 
-    // Get the user's id
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
-
-    // Find the user record by user id
-    const user                              = await UserModel.findById(userId)
-
-    // If the user could not be found
-    if(!user)
-      throw ErrorHelper.UserNotFound()
+    const user                              = await UserHelper.GetUserById(req, true)
 
     // Get the password, new password, and confirm new password
     const {
