@@ -142,8 +142,8 @@ UserSchema.pre('save', async function(next) {
 
     // Generate a new email verification token if the email is modified
     if(this.isModified('email')) {
-      this.isEmailVerified                  = false
-      this.emailVerificationToken           = crypto.randomBytes(32).toString('hex')
+      this.isEmailVerified                  = false // Set email to not verified
+      this.emailVerificationToken           = crypto.randomBytes(32).toString('hex') // Generate a new token
     }
   }
 
