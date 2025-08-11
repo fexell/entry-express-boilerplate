@@ -11,6 +11,7 @@ import { t } from 'i18next'
  */
 const SuccessHelper                         = {}
 
+// Response helper
 SuccessHelper.Response                      = (res, message = 'Success', data, statusCode = 200) => {
   return res
     .status(statusCode)
@@ -20,20 +21,24 @@ SuccessHelper.Response                      = (res, message = 'Success', data, s
   })
 }
 
+// On successful login, respond with success message
 SuccessHelper.UserLoggedIn                  = (res, user) => {
   return SuccessHelper.Response(res, t('UserLoggedIn'), {
     id: user._id,
   })
 }
 
+// On successful logout, respond with success message
 SuccessHelper.UserLoggedOut                 = (res) => {
   return SuccessHelper.Response(res, t('UserLoggedOut'), null, 200)
 }
 
+// If the user is logged out forcefully, respond with success message
 SuccessHelper.UserLoggedOutForcefully       = (res) => {
   return SuccessHelper.Response(res, t('UserLoggedOutForcefully'), null, 200)
 }
 
+// On successful user creation, respond with success message
 SuccessHelper.UserCreated                   = (res, user) => {
   return SuccessHelper.Response(res, t('UserCreated'), {
     id: user._id,
@@ -44,6 +49,7 @@ SuccessHelper.UserCreated                   = (res, user) => {
   }, 201)
 }
 
+// On successful email verification, respond with success message
 SuccessHelper.EmailVerified                = (res) => {
   return SuccessHelper.Response(res, t('EmailVerified'), null, 200)
 }
