@@ -4,8 +4,8 @@
   "AccountInactive": "Account is inactive. Please contact support.",
 
   "UserNotFound": "User not found.",
-  "UserAlreadyLoggedIn": "User is already logged in.",
-  "UserAlreadyLoggedOut": "User is already logged out.",
+  "UserAlreadyLoggedIn": "You are already logged in.",
+  "UserAlreadyLoggedOut": "You are already logged out.",
   "UserIdInvalid": "User ID is invalid.",
   "UserIdNotFound": "User ID not found.",
   "UserCreated": "User created successfully.",

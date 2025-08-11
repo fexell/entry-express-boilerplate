@@ -262,6 +262,10 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       if(!userId)
         CookiesHelper.SetUserIdCookie(res, decodedAccessToken.userId)
 
+      // If the decoded user id and the user id (from cookie) don't match
+      else if(userId !== decodedAccessToken.userId)
+        return AuthController.Logout(req, res, next, true)
+
       // Check to see if the decoded user id and the user id (from cookie) are valid
       else if(decodedAccessToken.userId !== userId ||
         !mongoose.isValidObjectId(decodedAccessToken.userId) ||
@@ -292,8 +296,14 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
         isRevoked                           : false,
       }).select('+token')
 
+      const decodedRefreshToken             = JwtHelper.VerifyRefreshToken(refreshTokenRecord.token)
+
       // If the refresh token record could not be found, or the refresh token is invalid, forcefully log out the user
-      if(!refreshTokenRecord || !JwtHelper.VerifyRefreshToken(refreshTokenRecord.token))
+      if(!refreshTokenRecord || !decodedRefreshToken)
+        return AuthController.Logout(req, res, next, true)
+
+      // If the decoded user id and the user id (from cookie) don't match
+      else if(userId !== decodedRefreshToken.userId)
         return AuthController.Logout(req, res, next, true)
 
       // Set the old refresh token to be revoked

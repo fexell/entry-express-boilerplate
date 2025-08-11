@@ -82,12 +82,12 @@ AuthController.Logout                       = async (req, res, next, forced = fa
   try {
 
     // Get the necessary cookies and their values
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
-    const refreshTokenId                    = CookiesHelper.GetRefreshTokenIdCookie(req)
+    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
 
     // If both user id and refresh token id are not set
     if(!userId || !refreshTokenId)
-      throw ErrorHelper.UserNotLoggedIn()
+      throw ErrorHelper.UserAlreadyLoggedOut()
 
     // Try to find the current refresh token record for the user
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
