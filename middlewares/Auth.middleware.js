@@ -266,9 +266,8 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
         !userId ||
         !decodedAccessToken.userId ||
         userId.toString() !== decodedAccessToken.userId.toString() ||
-        !mongoose.isValidObjectId(decodedAccessToken.userId ||
+        !mongoose.isValidObjectId(decodedAccessToken.userId) ||
         !mongoose.isValidObjectId(userId)
-        )
       )
         return AuthController.Logout(req, res, next, true)
 
@@ -309,7 +308,8 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       else if(
         userId &&
         decodedRefreshToken.userId && 
-        userId.toString() !== decodedRefreshToken.userId.toString())
+        userId.toString() !== decodedRefreshToken.userId.toString()
+      )
         return AuthController.Logout(req, res, next, true)
 
       // Set the old refresh token to be revoked

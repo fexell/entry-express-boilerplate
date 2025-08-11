@@ -39,7 +39,7 @@ AuthController.Login                        = async (req, res, next) => {
       throw ErrorHelper.PasswordRequired()
 
     // Attempt to find a user by provided email
-    const user                              = await UserModel.findOne({ email }).select('+password')
+    const user                              = await UserModel.findOne({ email }).select('+password').lean()
 
     // If a user could not be found
     if(!user)
@@ -60,10 +60,10 @@ AuthController.Login                        = async (req, res, next) => {
 
     // Initiate the new refresh token record
     const newRefreshTokenRecord             = RefreshTokenModel({
-      userId: user._id,
-      token: refreshToken,
-      ipAddress: clientIp,
-      userAgent: req.headers[ 'user-agent' ],
+      userId                                : user._id,
+      token                                 : refreshToken,
+      ipAddress                             : clientIp,
+      userAgent                             : req.headers[ 'user-agent' ],
     })
 
     // Attempt to save the new refresh token record
@@ -175,13 +175,13 @@ AuthController.Units                        = async (req, res, next) => {
   try {
 
     // Get the user's id
-    const userId                            = CookiesHelper.GetUserIdCookie(req) || req.userId
+    const userId                            = UserHelper.GetUserId(req)
 
     // Find refresh token records that belongs to the user; by user id and where isRevoked is set to false
     const units                             = await RefreshTokenModel.find({
       userId                                : userId,
       isRevoked                             : false,
-    })
+    }).lean()
 
     // If no logged in units were found
     if(!units.length)
