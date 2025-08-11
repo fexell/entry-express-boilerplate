@@ -22,8 +22,8 @@ const CookieOptions                         = (maxAge) => {
   }
 }
 
-// Signed cookie options
-const SignedCookieOptions                   = (maxAge) => {
+// Signed HttpOnly cookie options
+const SignedHttpOnlyCookieOptions           = (maxAge) => {
   return {
     httpOnly                                : true,
     secure                                  : app.get('NODE_ENV') === 'production',
@@ -37,7 +37,7 @@ const SignedCookieOptions                   = (maxAge) => {
 /**
  * @typedef {Object} CookiesHelper
  * @property {Function} SetCookie - The method for setting normal cookies
- * @property {Function} SetSignedCookie - Method for setting a signed cookie
+ * @property {Function} SetSignedHttpOnlyCookie - Method for setting a signed cookie
  * @property {Function} SetUserIdCookie - The method for setting  the user id cookie
  * @property {Function} GetUserIdCookie - The method for retrieving the user id from its cookie
  * @property {Function} SetAccessTokenCookie - The method for setting the access token cookie
@@ -53,8 +53,8 @@ CookiesHelper.SetCookie                     = (res, name, value, maxAge) => {
   return res.cookie(name, value, CookieOptions(maxAge))
 }
 
-CookiesHelper.SetSignedCookie               = (res, name, value, maxAge) => {
-  return res.cookie(name, value, SignedCookieOptions(maxAge))
+CookiesHelper.SetSignedHttpOnlyCookie       = (res, name, value, maxAge) => {
+  return res.cookie(name, value, SignedHttpOnlyCookieOptions(maxAge))
 }
 // </Set cookies>
 
@@ -75,7 +75,7 @@ CookiesHelper.GetUserIdCookie               = (req) => {
 // Access tokens
 // The access token cookie is set as a signed, httpOnly cookie
 CookiesHelper.SetAccessTokenCookie          = (res, token) => {
-  return CookiesHelper.SetSignedCookie(res, CookieNames.AccessToken, token, TimeHelper.ThreeMinutes)
+  return CookiesHelper.SetSignedHttpOnlyCookie(res, CookieNames.AccessToken, token, TimeHelper.ThreeMinutes)
 }
 
 CookiesHelper.GetAccessTokenCookie          = (req) => {
@@ -84,7 +84,7 @@ CookiesHelper.GetAccessTokenCookie          = (req) => {
 
 // Refresh tokens
 CookiesHelper.SetRefreshTokenIdCookie       = (res, tokenId) => {
-  return CookiesHelper.SetSignedCookie(res, CookieNames.RefreshTokenId, tokenId, TimeHelper.OneMonth)
+  return CookiesHelper.SetSignedHttpOnlyCookie(res, CookieNames.RefreshTokenId, tokenId, TimeHelper.OneMonth)
 }
 
 CookiesHelper.GetRefreshTokenIdCookie       = (req) => {
@@ -97,8 +97,8 @@ CookiesHelper.GetRefreshTokenIdCookie       = (req) => {
 // Clear cookies
 CookiesHelper.ClearCookie                   = (res, name, signed = false) => {
 
-  //
-  const options                             = signed ? SignedCookieOptions() : CookieOptions()
+  // If the cookie is signed, use the signed cookie options, else use the normal cookie options
+  const options                             = signed ? SignedHttpOnlyCookieOptions() : CookieOptions()
 
   return res.clearCookie(name, options)
 }

@@ -281,7 +281,6 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       return next()
 
     } else {
-
       // Get the refresh token id from req or its cookie
       const refreshTokenId                  = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
 
@@ -298,6 +297,10 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
 
       // Decode the refresh token
       const decodedRefreshToken             = JwtHelper.VerifyRefreshToken(refreshTokenRecord.token)
+
+      // If user id cookie isn't present, issue a new user id cookie, from the decoded refresh token
+      if(!userId)
+        CookiesHelper.SetUserIdCookie(res, decodedRefreshToken.userId)
 
       // If the refresh token record could not be found, or the refresh token is invalid, forcefully log out the user
       if(!refreshTokenRecord || !decodedRefreshToken)
