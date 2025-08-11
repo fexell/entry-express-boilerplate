@@ -181,6 +181,7 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
 }
 
 // Checks if the user has the required role to access the route
+// Example: AuthMiddleware.RoleChecker('admin'), or AuthMiddleware.RoleChecker([ 'moderator', 'admin' ])
 AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, res, next) => {
   try {
 
