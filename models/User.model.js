@@ -154,9 +154,7 @@ UserSchema.pre('save', async function(next) {
   if(this.isNew || this.isModified('password'))
     this.password                           = await PasswordHelper.Hash(this.password)
 
-  const modifiedPaths                       = this.modifiedPaths()
-
-  if(modifiedPaths.length === 0)
+  if(this.modifiedPaths().length === 0)
     return next(new Error(t('UserNothingToUpdate')))
 
   next()
