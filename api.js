@@ -41,21 +41,6 @@ const app                                   = express()
 const PRIVATE_KEY                           = fs.readFileSync('jwt.key', 'utf8')
 const PUBLIC_KEY                            = fs.readFileSync('jwt.key.pub', 'utf8')
 
-// Log levels for morgan
-const LogLevels                             = (statusCode) => {
-  if(statusCode >= 400)
-    return 'error'
-
-  else if(statusCode >= 300)
-    return 'warn'
-
-  else if(statusCode >= 200)
-    return 'info'
-
-  else
-    return 'debug'
-}
-
 // Set global variables
 app.set('PRIVATE_KEY', PRIVATE_KEY)
 app.set('PUBLIC_KEY', PUBLIC_KEY)
