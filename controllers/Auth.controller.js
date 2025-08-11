@@ -20,6 +20,7 @@ import SuccessHelper from '../helpers/Success.helper.js'
  */
 const AuthController                        = {}
 
+// Login the user
 AuthController.Login                        = async (req, res, next) => {
   try {
 
@@ -78,6 +79,7 @@ AuthController.Login                        = async (req, res, next) => {
   }
 }
 
+// Logs the user out
 AuthController.Logout                       = async (req, res, next, forced = false) => {
   try {
 
@@ -121,6 +123,7 @@ AuthController.Logout                       = async (req, res, next, forced = fa
   }
 }
 
+// Verifies the user's email
 AuthController.VerifyEmail                  = async (req, res, next) => {
   try {
 
@@ -164,6 +167,7 @@ AuthController.VerifyEmail                  = async (req, res, next) => {
   }
 }
 
+// Returns the units that the user is logged in on
 AuthController.Units                        = async (req, res, next) => {
   try {
 
