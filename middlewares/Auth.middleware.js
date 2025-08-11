@@ -250,7 +250,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
     // If access token is present
     if(accessToken) {
 
-      // Decode the access token and "decode" it
+      // Decode the access token
       const decodedAccessToken              = JwtHelper.VerifyAccessToken(accessToken)
 
       // If the access token couldn't be decoded, forcefully log out the user
@@ -296,6 +296,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
         isRevoked                           : false,
       }).select('+token')
 
+      // Decode the refresh token
       const decodedRefreshToken             = JwtHelper.VerifyRefreshToken(refreshTokenRecord.token)
 
       // If the refresh token record could not be found, or the refresh token is invalid, forcefully log out the user

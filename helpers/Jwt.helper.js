@@ -6,6 +6,9 @@ import app from '../api.js'
  * @typedef {Object} JwtHelper
  * @property {Function} Options - The method to set the options for the jwt
  * @property {Function} Sign - A helper function to setting a jwt
+ * @property {Function} SignAccessToken - The method for signing the access token
+ * @property {Function} SignRefreshToken - The method for signing the refresh token
+ * @property {Function} VerifyToken - The method for verifying the jwt
  */
 const JwtHelper                             = {}
 
