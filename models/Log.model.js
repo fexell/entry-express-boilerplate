@@ -1,5 +1,17 @@
 import mongoose, { Schema } from 'mongoose'
 
+/**
+ * This is the log schema for Morgan logs
+ * 
+ * @typedef {Schema} LogSchema
+ * @property {String} method
+ * @property {String} url
+ * @property {Number} status
+ * @property {String} ipAddress
+ * @property {String} userId
+ * @property {String} userAgent
+ * @property {Number} responseTime
+ */
 const LogSchema                             = new Schema({
   method                                    : {
     type                                    : String,
@@ -27,13 +39,14 @@ const LogSchema                             = new Schema({
     required                                : true,
   },
   responseTime                              : {
-    type                                    : String,
+    type                                    : Number,
     required                                : true,
   }
 }, {
   timestamps                                : true,
 })
 
+// Create the log model
 const LogModel                              = mongoose.model('Log', LogSchema)
 
 export {

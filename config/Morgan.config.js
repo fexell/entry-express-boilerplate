@@ -25,7 +25,7 @@ const MorganMiddleware                      = morgan(':method :url :status :ipAd
         ipAddress                           : log[ 3 ],
         userId                              : log[ 4 ],
         userAgent                           : log[ 5 ],
-        responseTime                        : log[ 6 ],
+        responseTime                        : Number(log[ 6 ]),
       }
 
       // Create the log in the database

@@ -5,16 +5,11 @@ import { t } from 'i18next'
 import useragent from 'express-useragent'
 
 import CorsMiddleware from './config/Cors.config.js'
+import ConnectToDatabase from './config/Mongoose.config.js'
 import {
   NODE_ENV,
   PORT,
-  JWT_SECRET,
-  SESSION_SECRET,
-  COOKIE_SECRET,
-  CSRF_SECRET,
-  MONGO_URI,
 } from './config/Environment.config.js'
-import ConnectToDatabase from './config/Mongoose.config.js'
 import SecurityMiddlewares, {
   CookieParserMiddleware,
   CsrfProtection,
@@ -22,17 +17,11 @@ import SecurityMiddlewares, {
   SlowDownLimiter,
 } from './config/Security.config.js'
 import i18nMiddleware from './config/i18n.config.js'
-import Logger from './config/Logger.config.js'
 import MorganMiddleware from './config/Morgan.config.js'
 import SessionMiddleware from './config/Session.config.js'
 import ServerConfig from './config/Server.config.js'
 
 import ErrorMiddleware from './middlewares/Error.middleware.js'
-
-import LogModel from './models/Log.model.js'
-
-import CookiesHelper from './helpers/Cookies.helper.js'
-import IpHelper from './helpers/Ip.helper.js'
 
 // The express instance
 const app                                   = express()
@@ -49,9 +38,8 @@ app.set('PUBLIC_KEY', PUBLIC_KEY)
 app.set('trust proxy', ServerConfig.trustProxy)
 app.disable('x-powered-by')
 
-app.use(MorganMiddleware)
-
 // Use all the middlewares
+app.use(MorganMiddleware)
 app.use(bodyParser.urlencoded())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
