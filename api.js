@@ -2,7 +2,6 @@ import bodyParser from 'body-parser'
 import express from 'express'
 import fs from 'fs'
 import { t } from 'i18next'
-import morgan from 'morgan'
 import useragent from 'express-useragent'
 
 import CorsMiddleware from './config/Cors.config.js'
@@ -24,6 +23,7 @@ import SecurityMiddlewares, {
 } from './config/Security.config.js'
 import i18nMiddleware from './config/i18n.config.js'
 import Logger from './config/Logger.config.js'
+import MorganMiddleware from './config/Morgan.config.js'
 import SessionMiddleware from './config/Session.config.js'
 import ServerConfig from './config/Server.config.js'
 
@@ -64,30 +64,7 @@ app.set('PUBLIC_KEY', PUBLIC_KEY)
 app.set('trust proxy', ServerConfig.trustProxy)
 app.disable('x-powered-by')
 
-// Morgan
-morgan.token('ipAddress', (req) => IpHelper.GetClientIp(req))
-morgan.token('userId', (req) => req.userId || CookiesHelper.GetUserIdCookie(req) || 'unknown')
-morgan.token('status', (req, res) => res.statusCode)
-
-app.use(morgan(':method :url :status :ipAddress :userId :user-agent :response-time', {
-  stream                                    : {
-    write                                   : async (message) => {
-      // Extract status code from the message
-      const log                             = message.trim().split(' ')
-      const logObject                       = {
-        method                              : log[ 0 ],
-        url                                 : log[ 1 ],
-        status                              : Number(log[ 2 ]),
-        ipAddress                           : log[ 3 ],
-        userId                              : log[ 4 ],
-        userAgent                           : log[ 5 ],
-        responseTime                        : log[ 6 ],
-      }
-
-      await LogModel.create(logObject)
-    },
-  },
-}))
+app.use(MorganMiddleware)
 
 // Use all the middlewares
 app.use(bodyParser.urlencoded())
