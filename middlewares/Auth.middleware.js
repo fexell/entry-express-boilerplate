@@ -312,6 +312,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       // Set the jwt id in session
       req.session.jwtId                     = jwtId
 
+      // Generate new access and refresh tokens
       const newAccessToken                  = JwtHelper.SignAccessToken(userId, jwtId)
       const newRefreshToken                 = JwtHelper.SignRefreshToken(userId)
 

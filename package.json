@@ -23,6 +23,7 @@
     "express-rate-limit": "^8.0.1",
     "express-session": "^1.18.2",
     "express-slow-down": "^3.0.0",
+    "express-useragent": "^1.0.15",
     "express-winston": "^4.2.0",
     "express-xss-sanitizer": "^2.0.0",
     "fs": "^0.0.1-security",
