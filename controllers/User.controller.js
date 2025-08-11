@@ -6,6 +6,7 @@ import CookiesHelper from '../helpers/Cookies.helper.js'
 import ErrorHelper from '../helpers/Error.helper.js'
 import MailerHelper from '../helpers/Mailer.helper.js'
 import StringHelper from '../helpers/String.helper.js'
+import UserHelper from '../helpers/User.helper.js'
 
 /**
  * @typedef {Object} UserController
@@ -19,11 +20,8 @@ const UserController                        = {}
 UserController.Get                          = async (req, res, next) => {
   try {
 
-    // Get the user id from the cookie
-    const userId                            = CookiesHelper.GetUserIdCookie(req)
-
-    // Retrieve the user's record
-    const user                              = await UserModel.findById(userId)
+    // Retrieve the user
+    const user                              = await UserHelper.GetUserById(req)
 
     // Return the response with the user's information
     return res.status(200).json({
@@ -133,15 +131,7 @@ UserController.Edit                         = async (req, res, next) => {
       surname
     }                                       = req.body
 
-    // Get the user id
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
-
-    // Retrieve the user
-    const user                              = await UserModel.findById(userId)
-
-    // If the user doesn't exist
-    if(!user)
-      throw ErrorHelper.UserNotFound()
+    const user                              = await UserHelper.GetUserById(req)
 
     // Update the user's email if it's set and is different from the current email
     if(email && email !== user.email)

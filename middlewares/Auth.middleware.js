@@ -10,6 +10,7 @@ import CookiesHelper from '../helpers/Cookies.helper.js'
 import ErrorHelper from '../helpers/Error.helper.js'
 import IpHelper from '../helpers/Ip.helper.js'
 import JwtHelper from '../helpers/Jwt.helper.js'
+import UserHelper from '../helpers/User.helper.js'
 
 /**
  * Middleware for handling authentication and authorization.
@@ -183,15 +184,7 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
 AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, res, next) => {
   try {
 
-    // Get the user id from the cookie
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
-
-    // Retrieve the user's record
-    const user                              = await UserModel.findById(userId)
-
-    // If the user doesn't exist
-    if(!user)
-      throw ErrorHelper.UserNotFound()
+    const user                              = await UserHelper.GetUserById(req)
 
     // If role is a string and the user doesn't have the required role
     if(typeof roles === 'string' && roles !== user.role)
