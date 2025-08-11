@@ -21,7 +21,7 @@ UserController.Get                          = async (req, res, next) => {
   try {
 
     // Retrieve the user
-    const user                              = await UserHelper.GetUserById(req)
+    const user                              = await UserHelper.GetUserById(req, false, true)
 
     // Return the response with the user's information
     return res.status(200).json({
@@ -43,7 +43,7 @@ UserController.GetAll                       = async (req, res, next) => {
   try {
 
     // Retrieve all users
-    const users                             = await UserModel.find({})
+    const users                             = await UserModel.find({}).lean()
 
     // Return the response with the users
     return res.status(200).json({
