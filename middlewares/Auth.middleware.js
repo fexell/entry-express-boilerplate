@@ -33,7 +33,7 @@ import UserHelper from '../helpers/User.helper.js'
  * - EmailVerified - After, check if the email is verified
  * - AccountInactive - After, check if the account is inactive
  * - RoleChecker - After, check if the user has the required role to access the route
- * - EditPermissionsChecker [situational] - After, check if the user has rights to edit
+ * - EditPermissionsChecker [situational] - After, check if the user has rights to edit, [needs a user id from parameters]
  * *****************************************************************************
  */
 const AuthMiddleware                        = {}
@@ -207,21 +207,17 @@ AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, 
 AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
   try {
 
-    // Get the user id from the cookie
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    // Get the user
+    const user                              = await UserHelper.GetUserById(req)
 
-    // Retrieve the user's record
-    const user                              = await UserModel.findById(userId)
-
-    // If the user doesn't exist
-    if(!user)
-      throw ErrorHelper.UserNotFound()
-
+    // Get the target user from parameters
     const targetUserId                      = req.params.id || req.params.userId
 
-    if(userId !== targetUserId || ![ 'moderator', 'admin' ].includes(user.role))
+    // If the user id is not equal to the target user id, or if the user doesn't have the required role
+    if(user._id !== targetUserId || ![ 'moderator', 'admin' ].includes(user.role))
       throw ErrorHelper.Unauthorized()
 
+    // Continue to the next middleware, or route
     return next()
 
   } catch(error) {
