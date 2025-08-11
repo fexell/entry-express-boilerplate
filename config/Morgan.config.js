@@ -10,11 +10,14 @@ morgan.token('ipAddress', (req) => IpHelper.GetClientIp(req))
 morgan.token('userId', (req) => req.userId || CookiesHelper.GetUserIdCookie(req) || 'unknown')
 morgan.token('status', (req, res) => res.statusCode)
 
+// Morgan middleware
 const MorganMiddleware                      = morgan(':method :url :status :ipAddress :userId :user-agent :response-time', {
   stream                                    : {
     write                                   : async (message) => {
-      // Extract status code from the message
+      // Parse the message
       const log                             = message.trim().split(' ')
+
+      // Create the log object
       const logObject                       = {
         method                              : log[ 0 ],
         url                                 : log[ 1 ],
@@ -25,6 +28,7 @@ const MorganMiddleware                      = morgan(':method :url :status :ipAd
         responseTime                        : log[ 6 ],
       }
 
+      // Create the log in the database
       await LogModel.create(logObject)
     },
   },
