@@ -37,7 +37,7 @@ const SignedHttpOnlyCookieOptions           = (maxAge) => {
 /**
  * @typedef {Object} CookiesHelper
  * @property {Function} SetCookie - The method for setting normal cookies
- * @property {Function} SetSignedHttpOnlyCookie - Method for setting a signed cookie
+ * @property {Function} SetSignedHttpOnlyCookie - Method for setting a signed http only cookie
  * @property {Function} SetUserIdCookie - The method for setting  the user id cookie
  * @property {Function} GetUserIdCookie - The method for retrieving the user id from its cookie
  * @property {Function} SetAccessTokenCookie - The method for setting the access token cookie
