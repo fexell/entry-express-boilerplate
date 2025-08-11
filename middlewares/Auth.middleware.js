@@ -14,7 +14,7 @@ import UserHelper from '../helpers/User.helper.js'
 
 /**
  * Middleware for handling authentication and authorization.
- * It checks if the user is logged in, verifies email, and checks account status.
+ * It checks if the user is logged in, verifies email, and checks account status, and so on.
  * 
  * @typedef {Object} AuthMiddleware
  * @property {Function} AlreadyLoggedIn - Checks if the user is already logged in.
@@ -43,15 +43,15 @@ AuthMiddleware.AlreadyLoggedIn              = async (req, res, next) => {
   try {
 
     // Get the cookies and their value
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
-    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
+    const userId                            = UserHelper.GetUserId(req)
+    const refreshTokenId                    = UserHelper.GetUserRefreshTokenId(req)
 
     // Retrieve the refresh token record
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
       _id                                   : refreshTokenId,
       userId                                : userId,
       isRevoked                             : false,
-    })
+    }).lean()
 
     // Check if there's an active refresh token
     if(refreshTokenRecord)
@@ -70,15 +70,15 @@ AuthMiddleware.AlreadyLoggedOut             = async (req, res, next) => {
   try {
 
     // Get the cookies and their values
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
-    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
+    const userId                            = UserHelper.GetUserId(req)
+    const refreshTokenId                    = UserHelper.GetUserRefreshTokenId(req)
 
     // Retrieve a refresh token record
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
       _id                                   : refreshTokenId,
       userId                                : userId,
       isRevoked                             : false,
-    })
+    }).lean()
 
     // Check if there's NO active refresh token
     if(!refreshTokenRecord)
@@ -97,13 +97,13 @@ AuthMiddleware.EmailVerified                = async (req, res, next) => {
   try {
 
     // Get the user id from the cookie
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    const userId                            = UserHelper.GetUserId(req)
 
     // Get the user based on either user id (if the user is logged in),
     // or by email (if the user is trying to log in)
     const user                              = await UserModel.findOne({
       $or: [{ _id: userId }, { ...(req.body?.email && { email: req.body?.email }) }]
-    })
+    }).lean()
 
     // In case the user could not be found
     if(!user)
@@ -130,7 +130,7 @@ AuthMiddleware.AccountInactive              = async (req, res, next) => {
   try {
 
     // Get user id from the cookie
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
+    const userId                            = UserHelper.GetUserId(req)
 
     // Retrieve the user's record either by user id (logged in user),
     // or by email (if the user is trying to log in)
@@ -140,7 +140,7 @@ AuthMiddleware.AccountInactive              = async (req, res, next) => {
         { $or: [{ _id: userId }, { ...(req.body?.email && { email: req.body?.email }) }] },
         { isActive: false },
       ]
-    })
+    }).lean()
 
     // If a record was found, with isActive set to false
     if(user)
@@ -160,13 +160,13 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
   try {
 
     // Get the refresh token's id from the cookie
-    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
+    const refreshTokenId                    = UserHelper.GetUserRefreshTokenId(req)
 
     // Attempt to find a refresh token based on the refresh token's id, AND where isRevoked is set to true
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
       _id                                   : refreshTokenId,
       isRevoked                             : true,
-    })
+    }).lean()
 
     // If a refresh token record was found
     if(refreshTokenRecord)
@@ -182,10 +182,11 @@ AuthMiddleware.RevokedRefreshToken          = async (req, res, next) => {
 
 // Checks if the user has the required role to access the route
 // Example: AuthMiddleware.RoleChecker('admin'), or AuthMiddleware.RoleChecker([ 'moderator', 'admin' ])
-AuthMiddleware.RoleChecker                  = (roles = [] || '') => async (req, res, next) => {
+AuthMiddleware.RoleChecker                  = (roles = []) => async (req, res, next) => {
   try {
 
-    const user                              = await UserHelper.GetUserById(req)
+    // Get the user
+    const user                              = await UserHelper.GetUserById(req, false, true)
 
     // If role is a string and the user doesn't have the required role
     if(typeof roles === 'string' && roles !== user.role)
@@ -208,16 +209,20 @@ AuthMiddleware.EditPermissionsChecker       = async (req, res, next) => {
   try {
 
     // Get the user
-    const user                              = await UserHelper.GetUserById(req)
+    const user                              = await UserHelper.GetUserById(req, false, true)
 
     // Get the target user from parameters
     const targetUserId                      = req.params.id || req.params.userId
 
-    // If the user id is not equal to the target user id, or if the user doesn't have the required role
-    if(user._id !== targetUserId || ![ 'moderator', 'admin' ].includes(user.role))
+    if(!targetUserId)
       throw ErrorHelper.Unauthorized()
 
-    // Continue to the next middleware, or route
+    if(user._id.toString() !== targetUserId)
+      throw ErrorHelper.Unauthorized()
+
+    else if(![ 'moderator', 'admin' ].includes(user.role))
+      throw ErrorHelper.Unauthorized()
+
     return next()
 
   } catch(error) {
@@ -253,13 +258,17 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
         CookiesHelper.SetUserIdCookie(res, decodedAccessToken.userId)
 
       // If the decoded user id and the user id (from cookie) don't match
-      else if(userId !== decodedAccessToken.userId)
+      else if(userId && decodedAccessToken.userId && userId.toString() !== decodedAccessToken.userId.toString())
         return AuthController.Logout(req, res, next, true)
 
       // Check to see if the decoded user id and the user id (from cookie) are valid
-      else if(decodedAccessToken.userId !== userId ||
-        !mongoose.isValidObjectId(decodedAccessToken.userId) ||
+      else if(
+        !userId ||
+        !decodedAccessToken.userId ||
+        userId.toString() !== decodedAccessToken.userId.toString() ||
+        !mongoose.isValidObjectId(decodedAccessToken.userId ||
         !mongoose.isValidObjectId(userId)
+        )
       )
         return AuthController.Logout(req, res, next, true)
 
@@ -297,7 +306,10 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
         return AuthController.Logout(req, res, next, true)
 
       // If the decoded user id and the user id (from cookie) don't match
-      else if(userId !== decodedRefreshToken.userId)
+      else if(
+        userId &&
+        decodedRefreshToken.userId && 
+        userId.toString() !== decodedRefreshToken.userId.toString())
         return AuthController.Logout(req, res, next, true)
 
       // Set the old refresh token to be revoked
