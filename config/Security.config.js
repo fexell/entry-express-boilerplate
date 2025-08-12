@@ -8,6 +8,8 @@ import { csrfSync } from 'csrf-sync'
 
 import { NODE_ENV, COOKIE_SECRET } from './Environment.config.js'
 
+import TimeHelper from '../helpers/Time.helper.js'
+
 // Cookie parser
 const CookieParserMiddleware                = cookieParser(COOKIE_SECRET, {
   secure                                    : NODE_ENV !== 'development',
@@ -28,7 +30,7 @@ const CsrfProtection                        = csrfSync()
  * @see https://www.npmjs.com/package/express-rate-limit
  */
 const Limiter                               = rateLimit({
-  windowMs                                  : 15 * 60 * 1000, // 15 minutes
+  windowMs                                  : TimeHelper.FifteenMinutes, // 15 minutes
   max                                       : 100, // Limit each IP to 100 requests per windowMs
   standardHeaders                           : 'draft-8', // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders                             : false, // Disable the `X-RateLimit-*` headers
@@ -39,7 +41,7 @@ const Limiter                               = rateLimit({
  * @see https://www.npmjs.com/package/express-slow-down
  */
 const SlowDownLimiter                       = slowDown({
-  windowMs                                  : 15 * 60 * 1000, // 15 minutes
+  windowMs                                  : TimeHelper.FifteenMinutes, // 15 minutes
   delayAfter                                : 100, // Allow 100 requests per windowMs before slowing down
   delayMs                                   : (hits) => hits * 500, // Slow down subsequent requests by 500ms
 })

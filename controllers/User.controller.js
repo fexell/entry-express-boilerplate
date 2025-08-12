@@ -14,6 +14,7 @@ import UserHelper from '../helpers/User.helper.js'
  * @property {Function} GetAll - Retrieves all users in the database.
  * @property {Function} GetByUserId - Retrieves a user by their ID.
  * @property {Function} GetByUsername - Retrieves a user by their username.
+ * @property {Function} GetByEmail - Retrieves a user by their email.
  * @property {Function} Create - The controller function responsible for creating a user, based on the user's input.
  */
 const UserController                        = {}
