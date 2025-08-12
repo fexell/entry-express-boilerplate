@@ -35,6 +35,13 @@ UserRouter.get('/all', [
   // AuthMiddleware.RoleChecker([ 'moderator', 'admin' ]),
 ], UserController.GetAll)
 
+UserRouter.get('/:username', [
+  AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
+], UserController.GetByUsername)
+
 UserRouter.get('/:userId', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,

@@ -87,7 +87,11 @@ UserController.GetByUsername                = async (req, res, next) => {
       throw ErrorHelper.UsernameParamNotFound()
 
     // Retrieve the user by their username from the parameter
-    const user                              = await UserModel.findOne({ username: usernameFromParams }).lean()
+    const user                              = await UserModel.findOne({
+      username                              : {
+        $regex                              : new RegExp(`^${ usernameFromParams }$`, 'i')
+      }
+    }).lean()
 
     // If the user could not be found
     if(!user)
