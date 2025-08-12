@@ -35,6 +35,7 @@
   "UsernameMinLength": "Username must be at least 3 characters long.",
   "UsernameMaxLength": "Username must not exceed 20 characters.",
   "UsernameTaken": "Username is already taken.",
+  "UsernameParamNotFound": "Username parameter not found.",
 
   "ForenameRequired": "Forename is required.",
   "ForenameInvalid": "Forename is invalid.",

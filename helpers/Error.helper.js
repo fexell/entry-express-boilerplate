@@ -53,6 +53,7 @@ ErrorHelper.UsernameInvalid                 = () => new CustomError(t('UsernameI
 ErrorHelper.UsernameMinLength               = () => new CustomError(t('UsernameMinLength'), 400)
 ErrorHelper.UsernameMaxLength               = () => new CustomError(t('UsernameMaxLength'), 400)
 ErrorHelper.UsernameTaken                   = () => new CustomError(t('UsernameTaken'), 400)
+ErrorHelper.UsernameParamNotFound           = () => new CustomError(t('UsernameParamNotFound'), 404)
 
 // Forename (first name) Errors
 ErrorHelper.ForenameRequired                = () => new CustomError(t('ForenameRequired'), 400)

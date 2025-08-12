@@ -13,6 +13,7 @@ import UserHelper from '../helpers/User.helper.js'
  * @property {Function} Get - Retrieves the user's information.
  * @property {Function} GetAll - Retrieves all users in the database.
  * @property {Function} GetByUserId - Retrieves a user by their ID.
+ * @property {Function} GetByUsername - Retrieves a user by their username.
  * @property {Function} Create - The controller function responsible for creating a user, based on the user's input.
  */
 const UserController                        = {}
@@ -60,6 +61,33 @@ UserController.GetByUserId                  = async (req, res, next) => {
 
     // Retrieve the user by their id from the parameter
     const user                              = await UserModel.findById(userIdFromParams).lean()
+
+    // If the user could not be found
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    // Return the response with the user's information
+    return res.status(200).json({
+      user                                  : UserModel.SerializeUser(user),
+    })
+
+  } catch(error) {
+    return next(error)
+  }
+}
+
+// Retrieves a user by their username
+UserController.GetByUsername                = async (req, res, next) => {
+  try {
+
+    // Retrieve the username from the parameter
+    const usernameFromParams                = req.params.username
+
+    if(!usernameFromParams)
+      throw ErrorHelper.UsernameParamNotFound()
+
+    // Retrieve the user by their username from the parameter
+    const user                              = await UserModel.findOne({ username: usernameFromParams }).lean()
 
     // If the user could not be found
     if(!user)
@@ -127,7 +155,7 @@ UserController.Create                       = async (req, res, next) => {
   }
 }
 
-UserController.Edit                         = async (req, res, next) => {
+UserController.Update                       = async (req, res, next) => {
   try {
 
     // Destructure the request body
