@@ -45,23 +45,31 @@ UserController.GetAll                       = async (req, res, next) => {
     return res.status(200).json({
       users                                 : users.map(user => UserModel.SerializeUser(user)),
     })
+
   } catch(error) {
     return next(error)
   }
 }
 
+// Retrieves a user by their ID
 UserController.GetByUserId                  = async (req, res, next) => {
   try {
+
+    // Retrieve the user id from the parameter
     const userIdFromParams                  = req.params.userId
 
+    // Retrieve the user by their id from the parameter
     const user                              = await UserModel.findById(userIdFromParams).lean()
 
+    // If the user could not be found
     if(!user)
       throw ErrorHelper.UserNotFound()
 
+    // Return the response with the user's information
     return res.status(200).json({
       user                                  : UserModel.SerializeUser(user),
     })
+
   } catch(error) {
     return next(error)
   }
@@ -156,6 +164,7 @@ UserController.Edit                         = async (req, res, next) => {
       message                               : t('UserUpdated'),
       user                                  : UserModel.SerializeUser(user),
     })
+    
   } catch(error) {
     return next(error)
   }
