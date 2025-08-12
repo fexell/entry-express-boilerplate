@@ -16,24 +16,24 @@ UserHelper.GetUserRefreshTokenId            = (req) => req.refreshTokenId || Coo
 UserHelper.GetUserById                      = async (req, includePassword = false, lean = false) => {
 
   // Get the user's id
-  const userIdFromCookie                    = req.userId || CookiesHelper.GetUserIdCookie(req)
+  const userId                              = UserHelper.GetUserId(req)
 
   // If the user id cookie couldn't be found
-  if(!userIdFromCookie)
+  if(!userId)
     throw ErrorHelper.UserIdNotFound()
 
   // If the user id cookie is invalid
-  else if(!mongoose.isValidObjectId(userIdFromCookie))
+  else if(!mongoose.isValidObjectId(userId))
     throw ErrorHelper.UserIdInvalid()
 
   // Retrieve the user's record
   const findUserById                        = includePassword
     ? !lean
-      ? await UserModel.findById(userIdFromCookie).select('+password')
-      : await UserModel.findById(userIdFromCookie).select('+password').lean()
+      ? await UserModel.findById(userId).select('+password')
+      : await UserModel.findById(userId).select('+password').lean()
     : !lean
-      ? await UserModel.findById(userIdFromCookie)
-      : await UserModel.findById(userIdFromCookie).lean()
+      ? await UserModel.findById(userId)
+      : await UserModel.findById(userId).lean()
 
   // If the user could not be found
   if(!findUserById)
