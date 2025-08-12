@@ -263,8 +263,6 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
 
       // Check to see if the decoded user id and the user id (from cookie) are valid
       else if(
-        !userId ||
-        !decodedAccessToken.userId ||
         userId.toString() !== decodedAccessToken.userId.toString() ||
         !mongoose.isValidObjectId(decodedAccessToken.userId) ||
         !mongoose.isValidObjectId(userId)

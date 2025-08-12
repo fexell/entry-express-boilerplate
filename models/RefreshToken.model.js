@@ -36,6 +36,16 @@ const RefreshTokenSchema                    = new Schema({
   timestamps                                : true,
 })
 
+RefreshTokenSchema
+  .statics
+  .SerializeRefreshToken                    = function(token) {
+  return {
+    userId                                  : token.userId,
+    ipAddress                               : token.ipAddress,
+  }
+}
+
+// Create the refresh token model
 const RefreshTokenModel                     = mongoose.model('RefreshToken', RefreshTokenSchema)
 
 export {

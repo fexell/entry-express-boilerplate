@@ -189,7 +189,7 @@ AuthController.Units                        = async (req, res, next) => {
 
     // If successful, respond with the units that the user is logged in on
     return res.status(200).json({
-      units,
+      units                                 : units.map(unit => RefreshTokenModel.SerializeRefreshToken(unit)),
     })
 
   } catch(error) {
