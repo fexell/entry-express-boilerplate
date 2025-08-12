@@ -32,6 +32,8 @@ const RefreshTokenSchema                    = new Schema({
     default                                 : false,
     select                                  : false,
   },
+}, {
+  timestamps                                : true,
 })
 
 const RefreshTokenModel                     = mongoose.model('RefreshToken', RefreshTokenSchema)
