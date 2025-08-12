@@ -38,6 +38,7 @@ AuthRouter.put('/email/verify/:token', [
   AuthMiddleware.EmailVerified,
 ], AuthController.VerifyEmail)
 
+// Changes the user's password
 AuthRouter.put('/password/change', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,

@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
  */
 const ErrorMiddleware                       = {}
 
+// The main error handler
 ErrorMiddleware.ErrorHandler                = (error, req, res, next) => {
 
   // If the error is a mongoose validation error

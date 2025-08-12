@@ -14,7 +14,7 @@ import UserHelper from '../helpers/User.helper.js'
 
 /**
  * Middleware for handling authentication and authorization.
- * It checks if the user is logged in, verifies email, and checks account status, and so on.
+ * It checks if the user is logged in, checks if the user has verified their email, account status, and so on.
  * 
  * @typedef {Object} AuthMiddleware
  * @property {Function} AlreadyLoggedIn - Checks if the user is already logged in.
