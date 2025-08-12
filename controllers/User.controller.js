@@ -12,6 +12,7 @@ import UserHelper from '../helpers/User.helper.js'
  * @typedef {Object} UserController
  * @property {Function} Get - Retrieves the user's information.
  * @property {Function} GetAll - Retrieves all users in the database.
+ * @property {Function} GetByUserId - Retrieves a user by their ID.
  * @property {Function} Create - The controller function responsible for creating a user, based on the user's input.
  */
 const UserController                        = {}
