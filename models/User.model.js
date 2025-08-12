@@ -133,6 +133,16 @@ const UserSchema                            = new Schema({
   timestamps                                : true,
 })
 
+UserSchema.statics.SerializeUser           = function(user) {
+  return {
+    _id                                     : user._id,
+    email                                   : user.email,
+    username                                : user.username,
+    forename                                : user.forename,
+    surname                                 : user.surname,
+  }
+}
+
 // Handle and format data before record is saved
 UserSchema.pre('save', async function(next) {
 

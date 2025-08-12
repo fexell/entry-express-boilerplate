@@ -25,12 +25,7 @@ UserController.Get                          = async (req, res, next) => {
 
     // Return the response with the user's information
     return res.status(200).json({
-      user                                  : {
-        email                               : user.email,
-        username                            : user.username,
-        forename                            : user.forename,
-        surname                             : user.surname,
-      },
+      user                                  : UserModel.SerializeUser(user),
     })
 
   } catch(error) {
@@ -43,18 +38,12 @@ UserController.GetAll                       = async (req, res, next) => {
   try {
 
     // Retrieve all users
-    const users                             = await UserModel.find({}).lean()
+    const users                             = await UserModel.find().lean()
 
-    // Return the response with the users
+    // Return the response with the users' information
     return res.status(200).json({
-      users                                 : users.map(user => ({
-        email                               : user.email,
-        username                            : user.username,
-        forename                            : user.forename,
-        surname                             : user.surname,
-      })),
+      users                                 : users.map(user => UserModel.SerializeUser(user)),
     })
-
   } catch(error) {
     return next(error)
   }
@@ -70,12 +59,7 @@ UserController.GetByUserId                  = async (req, res, next) => {
       throw ErrorHelper.UserNotFound()
 
     return res.status(200).json({
-      user                                  : {
-        email                               : user.email,
-        username                            : user.username,
-        forename                            : user.forename,
-        surname                             : user.surname,
-      },
+      user                                  : UserModel.SerializeUser(user),
     })
   } catch(error) {
     return next(error)
@@ -126,12 +110,7 @@ UserController.Create                       = async (req, res, next) => {
     // Return the response with the new user's information
     return res.status(201).json({
       message                               : t('UserCreated'),
-      user                                  : {
-        email                               : user.email,
-        username                            : user.username,
-        forename                            : user.forename,
-        surname                             : user.surname,
-      },
+      user                                  : UserModel.SerializeUser(newUser),
     })
       
   } catch(error) {
@@ -174,12 +153,7 @@ UserController.Edit                         = async (req, res, next) => {
     // Return the response
     return res.status(200).json({
       message                               : t('UserUpdated'),
-      user                                  : {
-        email                               : user.email,
-        username                            : user.username,
-        forename                            : user.forename,
-        surname                             : user.surname,
-      },
+      user                                  : UserModel.SerializeUser(user),
     })
   } catch(error) {
     return next(error)

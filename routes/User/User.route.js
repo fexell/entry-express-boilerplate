@@ -27,20 +27,19 @@ UserRouter.put('/', [
   AuthMiddleware.AccountInactive,
 ], UserController.Edit)
 
+UserRouter.get('/all', [
+  AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
+], UserController.GetAll)
+
 UserRouter.get('/:userId', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,
   AuthMiddleware.EmailVerified,
   AuthMiddleware.AccountInactive,
 ], UserController.GetByUserId)
-
-UserRouter.get('/all', [
-  AuthMiddleware.Authenticate,
-  AuthMiddleware.RevokedRefreshToken,
-  AuthMiddleware.EmailVerified,
-  AuthMiddleware.AccountInactive,
-  AuthMiddleware.RoleChecker([ 'moderator', 'admin' ]),
-], UserController.GetAll)
 
 UserRouter.post('/', UserController.Create)
 
