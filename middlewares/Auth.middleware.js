@@ -257,10 +257,6 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       if(!userId)
         CookiesHelper.SetUserIdCookie(res, decodedAccessToken.userId)
 
-      // If the decoded user id and the user id (from cookie) don't match
-      else if(userId && decodedAccessToken.userId && userId.toString() !== decodedAccessToken.userId.toString())
-        return AuthController.Logout(req, res, next, true)
-
       // Check to see if the decoded user id and the user id (from cookie) are valid
       else if(
         userId.toString() !== decodedAccessToken.userId.toString() ||
