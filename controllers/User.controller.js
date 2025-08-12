@@ -60,6 +60,28 @@ UserController.GetAll                       = async (req, res, next) => {
   }
 }
 
+UserController.GetByUserId                  = async (req, res, next) => {
+  try {
+    const userIdFromParams                  = req.params.userId
+
+    const user                              = await UserModel.findById(userIdFromParams).lean()
+
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    return res.status(200).json({
+      user                                  : {
+        email                               : user.email,
+        username                            : user.username,
+        forename                            : user.forename,
+        surname                             : user.surname,
+      },
+    })
+  } catch(error) {
+    return next(error)
+  }
+}
+
 // The controller function responsible for creating a user, based on the user's input
 UserController.Create                       = async (req, res, next) => {
   try {
