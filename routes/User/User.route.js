@@ -27,7 +27,9 @@ UserRouter.get('/', [
   AuthMiddleware.AccountInactive,
 ], UserController.Get)
 
-UserRouter.post('/', UserController.Create)
+UserRouter.post('/', [
+  AuthMiddleware.AlreadyLoggedIn,
+], UserController.Create)
 
 UserRouter.put('/', [
   AuthMiddleware.Authenticate,
