@@ -46,6 +46,7 @@ ErrorHelper.EmailEnterValid                 = () => new CustomError(t('EmailEnte
 ErrorHelper.EmailQueryNotFound              = () => new CustomError(t('EmailQueryNotFound'), 404)
 ErrorHelper.EmailAlreadyVerified            = () => new CustomError(t('EmailAlreadyVerified'), 400)
 ErrorHelper.EmailNotVerified                = () => new CustomError(t('EmailNotVerified'), 401)
+ErrorHelper.EmailParamNotFound              = () => new CustomError(t('EmailParamNotFound'), 404)
 
 // Username Errors
 ErrorHelper.UsernameRequired                = () => new CustomError(t('UsernameRequired'), 400)

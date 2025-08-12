@@ -107,6 +107,32 @@ UserController.GetByUsername                = async (req, res, next) => {
   }
 }
 
+// Retrieves a user by their email
+UserController.GetByEmail                   = async (req, res, next) => {
+  try {
+
+    // Retrieve the email from the parameter
+    const emailFromParams                   = req.params.email
+
+    if(!emailFromParams)
+      throw ErrorHelper.EmailParamNotFound()
+
+    const user                              = await UserModel.findOne({ email: emailFromParams.toLowerCase() }).lean()
+
+    // If the user could not be found
+    if(!user)
+      throw ErrorHelper.UserNotFound()
+
+    // Return the response with the user's information
+    return res.status(200).json({
+      user                                  : UserModel.SerializeUser(user),
+    })
+
+  } catch(error) {
+    
+  }
+}
+
 // The controller function responsible for creating a user, based on the user's input
 UserController.Create                       = async (req, res, next) => {
   try {
