@@ -40,8 +40,11 @@ UserController.Get                          = async (req, res, next) => {
 UserController.GetAll                       = async (req, res, next) => {
   try {
 
+    // Retrieve the order
+    const sort                              = req.query.sort
+
     // Retrieve all users
-    const users                             = await UserModel.find().lean()
+    const users                             = !sort ? await UserModel.find().lean() : await UserModel.find().sort(sort).lean()
 
     // Return the response with the users' information
     return res.status(200).json({

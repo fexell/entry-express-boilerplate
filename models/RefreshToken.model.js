@@ -42,6 +42,8 @@ RefreshTokenSchema
   return {
     userId                                  : token.userId,
     ipAddress                               : token.ipAddress,
+    createdAt                               : token.createdAt,
+    updatedAt                               : token.updatedAt,
   }
 }
 

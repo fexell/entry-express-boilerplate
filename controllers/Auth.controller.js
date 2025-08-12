@@ -39,7 +39,7 @@ AuthController.Login                        = async (req, res, next) => {
       throw ErrorHelper.PasswordRequired()
 
     // Attempt to find a user by provided email
-    const user                              = await UserModel.findOne({ email }).select('+password').lean()
+    const user                              = await UserModel.findOne({ email: email.toLowerCase() }).select('+password').lean()
 
     // If a user could not be found
     if(!user)
@@ -59,7 +59,7 @@ AuthController.Login                        = async (req, res, next) => {
     const refreshToken                      = JwtHelper.SignRefreshToken(user._id)
 
     // Initiate the new refresh token record
-    const newRefreshTokenRecord             = RefreshTokenModel({
+    const newRefreshTokenRecord             = new RefreshTokenModel({
       userId                                : user._id,
       token                                 : refreshToken,
       ipAddress                             : clientIp,
@@ -174,14 +174,22 @@ AuthController.VerifyEmail                  = async (req, res, next) => {
 AuthController.Units                        = async (req, res, next) => {
   try {
 
+    // Get the order
+    const sort                              = req.query.sort
+
     // Get the user's id
     const userId                            = UserHelper.GetUserId(req)
 
     // Find refresh token records that belongs to the user; by user id and where isRevoked is set to false
-    const units                             = await RefreshTokenModel.find({
+    const units                             = !sort
+    ? await RefreshTokenModel.find({
       userId                                : userId,
       isRevoked                             : false,
     }).lean()
+    : await RefreshTokenModel.find({
+      userId                                : userId,
+      isRevoked                             : false,
+    }).sort(sort).lean()
 
     // If no logged in units were found
     if(!units.length)
