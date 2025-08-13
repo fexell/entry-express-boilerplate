@@ -1,5 +1,5 @@
 {
-  "Unauthorized": "Unauthorized.",
+  "Unauthorized": "You are not authorized to interact with this route.",
 
   "AccountInactive": "Account is inactive. Please contact support.",
 
