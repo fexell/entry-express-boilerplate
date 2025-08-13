@@ -114,7 +114,7 @@ AuthMiddleware.EmailVerified                = async (req, res, next) => {
       throw ErrorHelper.EmailAlreadyVerified()
 
     // If the email is NOT verified
-    if(!user.isEmailVerified)
+    if(!req.path.includes('verify') && !user.isEmailVerified)
       throw ErrorHelper.EmailNotVerified()
 
     // Continue to the next middleware, or route
