@@ -26,7 +26,7 @@
   "EmailEnterValid": "Please enter a valid email address.",
   "EmailQueryNotFound": "Email not found.",
   "EmailAlreadyVerified": "Email is already verified.",
-  "EmailNotVerified": "Email is not verified.",
+  "EmailNotVerified": "You have not verified your email yet.",
   "EmailParamNotFound": "Email parameter not found.",
 
   "EmailVerified": "Email verified successfully.",
