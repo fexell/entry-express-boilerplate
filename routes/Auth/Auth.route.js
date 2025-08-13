@@ -33,7 +33,7 @@ AuthRouter.post('/logout', [
   AuthMiddleware.AlreadyLoggedOut,
 ], AuthController.Logout)
 
-AuthRouter.put('/revoke/:refreshTokenId', [
+AuthRouter.put('/units/revoke/:refreshTokenId', [
   AuthMiddleware.Authenticate,
   AuthMiddleware.RevokedRefreshToken,
   AuthMiddleware.EmailVerified,

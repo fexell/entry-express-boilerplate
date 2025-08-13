@@ -276,7 +276,7 @@ AuthController.RevokeRefreshToken           = async (req, res, next) => {
       throw ErrorHelper.RefreshTokenRecordNotFound()
 
     // Else if the refresh token id is the same as the current refresh token id
-    if(targetRefreshTokenId === currentRefreshTokenId)
+    if(targetRefreshTokenId.toString() === currentRefreshTokenId.toString())
       throw ErrorHelper.RefreshTokenCurrentRevoke()
 
     // Find the refresh token record

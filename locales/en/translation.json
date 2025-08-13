@@ -4,7 +4,7 @@
   "AccountInactive": "Account is inactive. Please contact support.",
 
   "UserNotFound": "User not found.",
-  "UserAlreadyLoggedIn": "You are already logged in.",
+  "UserAlreadyLoggedIn": "You are currently logged in.",
   "UserAlreadyLoggedOut": "You are already logged out.",
   "UserIdInvalid": "User ID is invalid.",
   "UserIdNotFound": "User ID not found.",
