@@ -17,6 +17,7 @@ import UserHelper from '../helpers/User.helper.js'
  * @property {Function} GetByUsername - Retrieves a user by their username.
  * @property {Function} GetByEmail - Retrieves a user by their email.
  * @property {Function} Create - The controller function responsible for creating a user, based on the user's input.
+ * @property {Function} Update - The controller function responsible for updating a user, based on the user's input.
  */
 const UserController                        = {}
 
@@ -190,6 +191,7 @@ UserController.Create                       = async (req, res, next) => {
   }
 }
 
+// The controller function responsible for updating a user, based on the user's input
 UserController.Update                       = async (req, res, next) => {
   try {
 
