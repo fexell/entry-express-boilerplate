@@ -8,7 +8,7 @@ import transporter, { SENDER_EMAIL, REPLY_TO } from '../config/Mailer.config.js'
  * @static Send - Sends the email
  * 
  * Example:
- * const mailerHelper = new MailerHelper('no-reply@yourdomain.com', 'abc@def', 'Subject', 'Message')
+ * const mailerHelper = new MailerHelper('no-reply@yourdomain.com', 'abc@def.com', 'Subject', 'Message')
  * await mailerHelper.Send()
  */
 class MailerHelper {

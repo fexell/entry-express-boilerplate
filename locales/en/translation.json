@@ -71,6 +71,8 @@
 
   "RefreshTokenIdInvalid": "Refresh token ID is invalid.",
   "RefreshTokenRevoked": "Refresh token has been revoked.",
+  "RefreshTokenIdRequired": "Refresh token ID is required.",
+  "RefreshTokenRecordNotFound": "Refresh token record not found.",
 
   "ClientIpNotFound": "Client IP not found."
 }

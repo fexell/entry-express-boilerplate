@@ -92,6 +92,8 @@ ErrorHelper.TokenParamNotFound              = () => new CustomError(t('TokenPara
 // Refresh Token Errors
 ErrorHelper.RefreshTokenIdInvalid           = () => new CustomError(t('RefreshTokenIdInvalid'), 400)
 ErrorHelper.RefreshTokenRevoked             = () => new CustomError(t('RefreshTokenRevoked'), 400)
+ErrorHelper.RefreshTokenIdRequired          = () => new CustomError(t('RefreshTokenIdRequired'), 400)
+ErrorHelper.RefreshTokenRecordNotFound      = () => new CustomError(t('RefreshTokenRecordNotFound'), 404)
 
 // Client Errors
 ErrorHelper.ClientIpNotFound                = () => new CustomError(t('ClientIpNotFound'), 400)

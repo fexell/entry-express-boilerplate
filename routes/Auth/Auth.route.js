@@ -33,6 +33,13 @@ AuthRouter.post('/logout', [
   AuthMiddleware.AlreadyLoggedOut,
 ], AuthController.Logout)
 
+AuthRouter.put('/revoke', [
+  AuthMiddleware.Authenticate,
+  AuthMiddleware.RevokedRefreshToken,
+  AuthMiddleware.EmailVerified,
+  AuthMiddleware.AccountInactive,
+, AuthController.RevokeRefreshToken])
+
 // Verifies the user's email
 AuthRouter.put('/email/verify/:token', [
   AuthMiddleware.EmailVerified,

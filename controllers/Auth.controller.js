@@ -258,6 +258,35 @@ AuthController.ChangePassword               = async (req, res, next) => {
   }
 }
 
+AuthController.RevokeRefreshToken           = async (req, res, next) => {
+  try {
+    
+    const targetRefreshTokenId              = req.params.refreshTokenId
+
+    if(!targetRefreshTokenId)
+      throw ErrorHelper.RefreshTokenIdRequired()
+
+    const refreshTokenRecord                = await RefreshTokenModel.findOne({
+      _id                                   : targetRefreshTokenId,
+      isRevoked                             : false,
+    })
+
+    if(!refreshTokenRecord)
+      throw ErrorHelper.RefreshTokenRecordNotFound()
+
+    refreshTokenRecord.isRevoked            = true
+
+    await refreshTokenRecord.save()
+
+    return res.status(200).json({
+      message                               : t('RefreshTokenRevoked'),
+    })
+
+  } catch(error) {
+    return next(error)
+  }
+}
+
 export {
   AuthController as default,
 }
