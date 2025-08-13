@@ -20,6 +20,7 @@ import UserHelper from '../helpers/User.helper.js'
  * @property {Function} VerifyEmail - Verifies the user's email
  * @property {Function} Units - Returns the units that the user is logged in on
  * @property {Function} ChangePassword - Changes the user's password
+ * @property {Function} RevokeRefreshToken - Revokes a refresh token
  */
 const AuthController                        = {}
 
@@ -258,6 +259,7 @@ AuthController.ChangePassword               = async (req, res, next) => {
   }
 }
 
+// Revokes a refresh token
 AuthController.RevokeRefreshToken           = async (req, res, next) => {
   try {
     
