@@ -45,7 +45,12 @@ JwtHelper.VerifyToken                       = (token, expiresIn, jwtId) => {
 
 // Methods for verifying the access- and refresh token
 JwtHelper.VerifyAccessToken                 = (token, jwtId) => JwtHelper.VerifyToken(token, '3m', jwtId)
-JwtHelper.VerifyRefreshToken                = (token) => JwtHelper.VerifyToken(token, '30d')
+JwtHelper.VerifyRefreshToken                = (token) => {
+  if(!token)
+    return false
+
+  return JwtHelper.VerifyToken(token, '30d')
+}
 
 export {
   JwtHelper as default,

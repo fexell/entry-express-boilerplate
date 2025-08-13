@@ -87,8 +87,8 @@ AuthController.Logout                       = async (req, res, next, forced = fa
   try {
 
     // Get the necessary cookies and their values
-    const userId                            = req.userId || CookiesHelper.GetUserIdCookie(req)
-    const refreshTokenId                    = req.refreshTokenId || CookiesHelper.GetRefreshTokenIdCookie(req)
+    const userId                            = UserHelper.GetUserId(req)
+    const refreshTokenId                    = UserHelper.GetUserRefreshTokenId(req)
 
     // If both user id and refresh token id are not set
     if(!userId || !refreshTokenId)
@@ -101,15 +101,15 @@ AuthController.Logout                       = async (req, res, next, forced = fa
       isRevoked                             : false,
     })
 
-    // If a refresh token record could not be found, let the user know they're already logged out
-    if(!refreshTokenRecord)
-      throw ErrorHelper.UserAlreadyLoggedOut()
+    // If the refresh token record was found
+    if(refreshTokenRecord) {
 
-    // Revoke the current refresh token
-    refreshTokenRecord.isRevoked            = true
+      // Revoke the current refresh token
+      refreshTokenRecord.isRevoked          = true
 
-    // Attempt to save the refresh token record
-    await refreshTokenRecord.save()
+      // Attempt to save the refresh token record
+      await refreshTokenRecord.save()
+    }
 
     // Clear all the cookies
     CookiesHelper.ClearCookie(res, CookieNames.UserId)
@@ -261,23 +261,39 @@ AuthController.ChangePassword               = async (req, res, next) => {
 AuthController.RevokeRefreshToken           = async (req, res, next) => {
   try {
     
+    // Get the refresh token id
     const targetRefreshTokenId              = req.params.refreshTokenId
+    const currentRefreshTokenId             = UserHelper.GetUserRefreshTokenId(req)
 
+    // If the refresh token id parameter is missing
     if(!targetRefreshTokenId)
       throw ErrorHelper.RefreshTokenIdRequired()
 
+    // Else if the current refresh token id is missing
+    else if(!currentRefreshTokenId)
+      throw ErrorHelper.RefreshTokenRecordNotFound()
+
+    // Else if the refresh token id is the same as the current refresh token id
+    if(targetRefreshTokenId === currentRefreshTokenId)
+      throw ErrorHelper.RefreshTokenCurrentRevoke()
+
+    // Find the refresh token record
     const refreshTokenRecord                = await RefreshTokenModel.findOne({
       _id                                   : targetRefreshTokenId,
       isRevoked                             : false,
     })
 
+    // If the refresh token record could not be found
     if(!refreshTokenRecord)
       throw ErrorHelper.RefreshTokenRecordNotFound()
 
+    // Revoke the refresh token
     refreshTokenRecord.isRevoked            = true
 
+    // Attempt to save the refresh token
     await refreshTokenRecord.save()
 
+    // Return with a success
     return res.status(200).json({
       message                               : t('RefreshTokenRevoked'),
     })

@@ -288,7 +288,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       }).select('+token')
 
       // Decode the refresh token
-      const decodedRefreshToken             = JwtHelper.VerifyRefreshToken(refreshTokenRecord.token)
+      const decodedRefreshToken             = JwtHelper.VerifyRefreshToken(refreshTokenRecord?.token)
 
       // If user id cookie isn't present, issue a new user id cookie, from the decoded refresh token
       if(!userId)

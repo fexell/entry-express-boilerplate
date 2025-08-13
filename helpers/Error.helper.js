@@ -94,6 +94,7 @@ ErrorHelper.RefreshTokenIdInvalid           = () => new CustomError(t('RefreshTo
 ErrorHelper.RefreshTokenRevoked             = () => new CustomError(t('RefreshTokenRevoked'), 400)
 ErrorHelper.RefreshTokenIdRequired          = () => new CustomError(t('RefreshTokenIdRequired'), 400)
 ErrorHelper.RefreshTokenRecordNotFound      = () => new CustomError(t('RefreshTokenRecordNotFound'), 404)
+ErrorHelper.RefreshTokenCurrentRevoke       = () => new CustomError(t('RefreshTokenCurrentRevoke'), 400)
 
 // Client Errors
 ErrorHelper.ClientIpNotFound                = () => new CustomError(t('ClientIpNotFound'), 400)

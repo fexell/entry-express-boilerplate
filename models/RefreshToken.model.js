@@ -40,6 +40,7 @@ RefreshTokenSchema
   .statics
   .SerializeRefreshToken                    = function(token) {
   return {
+    _id                                     : token._id,
     userId                                  : token.userId,
     ipAddress                               : token.ipAddress,
     createdAt                               : token.createdAt,
