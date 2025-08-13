@@ -5,6 +5,7 @@ import UserModel from '../models/User.model.js'
 import CookiesHelper from '../helpers/Cookies.helper.js'
 import ErrorHelper from '../helpers/Error.helper.js'
 import MailerHelper from '../helpers/Mailer.helper.js'
+import PasswordHelper from '../helpers/Password.helper.js'
 import StringHelper from '../helpers/String.helper.js'
 import UserHelper from '../helpers/User.helper.js'
 
@@ -197,14 +198,22 @@ UserController.Update                       = async (req, res, next) => {
       email,
       username,
       forename,
-      surname
+      surname,
+      password,
     }                                       = req.body
 
-    const user                              = await UserHelper.GetUserById(req)
+    const user                              = await UserHelper.GetUserById(req, true)
 
     // Update the user's email if it's set and is different from the current email
-    if(email && email !== user.email)
+    if(email && email !== user.email) {
+      if(!password)
+        throw ErrorHelper.PasswordForEmailUpdateRequired()
+
+      if(!PasswordHelper.Verify(password, user.password))
+        throw ErrorHelper.PasswordForEmailUpdateIncorrect()
+
       user.email                            = email.toLowerCase().trim()
+    }
 
     // Update the user's username if it's set and is different from the current username
     if(username && username !== user.username)

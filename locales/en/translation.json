@@ -59,6 +59,8 @@
   "PasswordMismatch": "Passwords do not match.",
   "PasswordWrong": "Wrong password.",
   "PasswordEqualsNewPassword": "Your new password cannot be the same as your current password.",
+  "PasswordForEmailUpdateRequired": "Password is required when changing your email.",
+  "PasswordForEmailUpdateIncorrect": "The password you entered is incorrect.",
 
   "PasswordChanged": "Password changed successfully.",
 

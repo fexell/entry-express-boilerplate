@@ -80,6 +80,8 @@ ErrorHelper.PasswordVerificationFailed      = () => new CustomError(t('PasswordV
 ErrorHelper.PasswordMismatch                = () => new CustomError(t('PasswordMismatch'), 400)
 ErrorHelper.PasswordWrong                   = () => new CustomError(t('PasswordWrong'), 401)
 ErrorHelper.PasswordEqualsNewPassword       = () => new CustomError(t('PasswordEqualsNewPassword'), 400)
+ErrorHelper.PasswordForEmailUpdateRequired  = () => new CustomError(t('PasswordForEmailUpdateRequired'), 400)
+ErrorHelper.PasswordForEmailUpdateIncorrect = () => new CustomError(t('PasswordForEmailUpdateIncorrect'), 400)
 
 // Route Errors
 ErrorHelper.RouteProtected                  = () => new CustomError(t('RouteProtected'), 401)
