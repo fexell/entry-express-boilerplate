@@ -6,12 +6,11 @@
 const StringHelper                          = {}
 
 /**
+ * Capitalize the first letter of a string, and lowercase the rest
  * 
  * @param {string} str - The string to capitalize
- * @returns {string}
+ * @returns {string} - The capitalized string
  */
-
-// Capitalize the first letter of a string, and lowercase the rest
 StringHelper.Capitalize                     = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }

@@ -9,7 +9,7 @@ import { t } from 'i18next'
 const PasswordHelper                        = {}
 
 // The method that hashes the password
-PasswordHelper.Hash                        = async (password) => {
+PasswordHelper.Hash                         = async (password) => {
   try {
     return await argon2.hash(password)
   } catch (error) {
@@ -20,7 +20,7 @@ PasswordHelper.Hash                        = async (password) => {
 }
 
 // The method for verifying the password
-PasswordHelper.Verify                     = async (password, hash) => {
+PasswordHelper.Verify                       = async (password, hash) => {
   try {
     return await argon2.verify(hash, password)
   } catch (error) {

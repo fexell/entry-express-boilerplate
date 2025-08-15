@@ -5,7 +5,7 @@
 
   "UserNotFound": "User not found.",
   "UserAlreadyLoggedIn": "You are currently logged in.",
-  "UserAlreadyLoggedOut": "You are already logged out.",
+  "UserAlreadyLoggedOut": "You are currently logged out.",
   "UserIdInvalid": "User ID is invalid.",
   "UserIdNotFound": "User ID not found.",
   "UserCreated": "User created successfully.",
