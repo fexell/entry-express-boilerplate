@@ -2,7 +2,99 @@ import { t } from 'i18next'
 
 /**
  * @typedef {Object} ErrorHelper
+ * @property {Function} Unauthorized - Throws an error for unauthorized access
  * 
+ * *****************************************************************************
+ * Account Errors
+ * @property {Function} AccountInactive - Throws an error for inactive account
+ * 
+ * *****************************************************************************
+ * User Errors
+ * @property {Function} UserNotFound - Throws an error for user not found
+ * @property {Function} UserAlreadyLoggedIn - Throws an error for user already logged in
+ * @property {Function} UserAlreadyLoggedOut - Throws an error for user already logged out
+ * @property {Function} UserIdInvalid - Throws an error for invalid user id
+ * @property {Function} UserIdNotFound - Throws an error for user id not found
+ * @property {Function} UserLoggedOutForcefully - Throws an error for user logged out forcefully
+ * @property {Function} UserNothingToUpdate - Throws an error for user nothing to update
+ * 
+ * *****************************************************************************
+ * Target ID Errors
+ * @property {Function} TargetIdNotFound - Throws an error for target id not found
+ * @property {Function} TargetIdInvalid - Throws an error for invalid target id
+ * 
+ * *****************************************************************************
+ * Units Errors
+ * @property {Function} UnitsNotFound - Throws an error for units not found
+ * 
+ * *****************************************************************************
+ * Email Errors
+ * @property {Function} EmailRequired - Throws an error for email required
+ * @property {Function} EmailInvalid - Throws an error for invalid email
+ * @property {Function} EmailEnterValid - Throws an error for email enter valid
+ * @property {Function} EmailQueryNotFound - Throws an error for email query not found
+ * @property {Function} EmailAlreadyVerified - Throws an error for email already verified
+ * @property {Function} EmailNotVerified - Throws an error for email not verified
+ * @property {Function} EmailParamNotFound - Throws an error for email param not found
+ * 
+ * *****************************************************************************
+ * Username Errors
+ * @property {Function} UsernameRequired - Throws an error for username required
+ * @property {Function} UsernameInvalid - Throws an error for invalid username
+ * @property {Function} UsernameMinLength - Throws an error for username min length
+ * @property {Function} UsernameMaxLength - Throws an error for username max length
+ * @property {Function} UsernameTaken - Throws an error for username taken
+ * @property {Function} UsernameParamNotFound - Throws an error for username param not found
+ * 
+ * *****************************************************************************
+ * Forename Errors
+ * @property {Function} ForenameRequired - Throws an error for forename required
+ * @property {Function} ForenameInvalid - Throws an error for invalid forename
+ * @property {Function} ForenameMinLength - Throws an error for forename min length
+ * @property {Function} ForenameMaxLength - Throws an error for forename max length
+ * 
+ * *****************************************************************************
+ * Surname Errors
+ * @property {Function} SurnameRequired - Throws an error for surname required
+ * @property {Function} SurnameInvalid - Throws an error for invalid surname
+ * @property {Function} SurnameMinLength - Throws an error for surname min length
+ * @property {Function} SurnameMaxLength - Throws an error for surname max length
+ * 
+ * *****************************************************************************
+ * Password Errors
+ * @property {Function} PasswordRequired - Throws an error for password required
+ * @property {Function} PasswordNewRequired - Throws an error for new password required
+ * @property {Function} PasswordNewConfirmRequired - Throws an error for new password confirmation required
+ * @property {Function} PasswordInvalid - Throws an error for invalid password
+ * @property {Function} PasswordMinLength - Throws an error for password min length
+ * @property {Function} PasswordMaxLength - Throws an error for password max length
+ * @property {Function} PasswordHashError - Throws an error for password hash error
+ * @property {Function} PasswordVerificationFailed - Throws an error for password verification failed
+ * @property {Function} PasswordMismatch - Throws an error for password mismatch
+ * @property {Function} PasswordWrong - Throws an error for wrong password
+ * @property {Function} PasswordEqualsNewPassword - Throws an error for password equals new password
+ * @property {Function} PasswordForEmailUpdateRequired - Throws an error for password for email update required
+ * @property {Function} PasswordForEmailUpdateIncorrect - Throws an error for password for email update incorrect
+ * 
+ * *****************************************************************************
+ * Route Errors
+ * @property {Function} RouteProtected - Throws an error for protected route
+ * 
+ * *****************************************************************************
+ * Token Errors
+ * @property {Function} TokenParamNotFound - Throws an error for token param not found
+ * 
+ * *****************************************************************************
+ * Refresh Token Errors
+ * @property {Function} RefreshTokenIdInvalid - Throws an error for refresh token id invalid
+ * @property {Function} RefreshTokenRevoked - Throws an error for refresh token revoked
+ * @property {Function} RefreshTokenIdRequired - Throws an error for refresh token id required
+ * @property {Function} RefreshTokenRecordNotFound - Throws an error for refresh token record not found
+ * @property {Function} RefreshTokenCurrentRevoke - Throws an error for refresh token current revoke
+ * 
+ * *****************************************************************************
+ * Client IP Errors
+ * @property {Function} ClientIpNotFound - Throws an error for client ip not found
  */
 const ErrorHelper                           = {}
 
