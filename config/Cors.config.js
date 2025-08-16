@@ -7,7 +7,10 @@ import cors from 'cors'
  */
 const options                               = {
   credentials                               : true,
-  origin                                    : [ 'http://localhost:3000', 'http://localhost:8081' ],
+  origin                                    : [
+    'http://localhost:3000',
+    'http://localhost:8081',
+  ],
 }
 
 // Cors middleware

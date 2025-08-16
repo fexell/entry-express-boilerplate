@@ -17,8 +17,8 @@ import 'dotenv/config'
 const JwtHelper                             = {}
 
 const Expiration                            = {
-  ACCESS_TOKEN                              : process.env.JWT_ACCESS_TOKEN_EXPIRATION,
-  REFRESH_TOKEN                             : process.env.JWT_REFRESH_TOKEN_EXPIRATION,
+  ACCESS_TOKEN                              : process.env.JWT_ACCESS_TOKEN_EXPIRATION || '3m',
+  REFRESH_TOKEN                             : process.env.JWT_REFRESH_TOKEN_EXPIRATION || '30d',
 }
 
 // Options for the jwt
