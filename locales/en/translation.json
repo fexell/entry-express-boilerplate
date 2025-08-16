@@ -74,6 +74,7 @@
   "RefreshTokenIdRequired": "Refresh token ID is required.",
   "RefreshTokenRecordNotFound": "Refresh token record not found.",
   "RefreshTokenCurrentRevoke": "You are attempting to revoke the current refresh token. Log out instead.",
+  "RefreshTokenNotFound": "Refresh token not found.",
 
   "ClientIpNotFound": "Client IP not found."
 }

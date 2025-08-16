@@ -48,7 +48,7 @@ const SignedHttpOnlyCookieOptions           = (maxAge) => {
  */
 const CookiesHelper                         = {}
 
-// <Set cookies>
+// Set cookies
 CookiesHelper.SetCookie                     = (res, name, value, maxAge) => {
   return res.cookie(name, value, CookieOptions(maxAge))
 }
@@ -56,7 +56,6 @@ CookiesHelper.SetCookie                     = (res, name, value, maxAge) => {
 CookiesHelper.SetSignedHttpOnlyCookie       = (res, name, value, maxAge) => {
   return res.cookie(name, value, SignedHttpOnlyCookieOptions(maxAge))
 }
-// </Set cookies>
 
 // User ID Cookies
 // This is set as a normal (unsigned) cookie (also without httpOnly), that the frontend can access

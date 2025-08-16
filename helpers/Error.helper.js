@@ -2,6 +2,9 @@ import { t } from 'i18next'
 
 /**
  * @typedef {Object} ErrorHelper
+ * 
+ * *****************************************************************************
+ * Authentication/Authorization Errors
  * @property {Function} Unauthorized - Throws an error for unauthorized access
  * 
  * *****************************************************************************
@@ -187,6 +190,7 @@ ErrorHelper.RefreshTokenRevoked             = () => new CustomError(t('RefreshTo
 ErrorHelper.RefreshTokenIdRequired          = () => new CustomError(t('RefreshTokenIdRequired'), 400)
 ErrorHelper.RefreshTokenRecordNotFound      = () => new CustomError(t('RefreshTokenRecordNotFound'), 404)
 ErrorHelper.RefreshTokenCurrentRevoke       = () => new CustomError(t('RefreshTokenCurrentRevoke'), 400)
+ErrorHelper.RefreshTokenNotFound            = () => new CustomError(t('RefreshTokenNotFound'), 404)
 
 // Client Errors
 ErrorHelper.ClientIpNotFound                = () => new CustomError(t('ClientIpNotFound'), 400)

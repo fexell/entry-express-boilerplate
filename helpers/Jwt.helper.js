@@ -1,4 +1,7 @@
 import jwt from 'jsonwebtoken'
+import mongoose from 'mongoose'
+
+import ErrorHelper from './Error.helper.js'
 
 import app from '../api.js'
 
@@ -44,10 +47,16 @@ JwtHelper.VerifyToken                       = (token, expiresIn, jwtId) => {
 }
 
 // Methods for verifying the access- and refresh token
-JwtHelper.VerifyAccessToken                 = (token, jwtId) => JwtHelper.VerifyToken(token, '3m', jwtId)
+JwtHelper.VerifyAccessToken                 = (token, jwtId) => {
+  if(!token)
+    throw ErrorHelper.RefreshTokenNotFound()
+
+  return JwtHelper.VerifyToken(token, '3m', jwtId)
+}
+
 JwtHelper.VerifyRefreshToken                = (token) => {
   if(!token)
-    return false
+    throw ErrorHelper.RefreshTokenNotFound()
 
   return JwtHelper.VerifyToken(token, '30d')
 }
