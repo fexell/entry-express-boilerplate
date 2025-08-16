@@ -8,6 +8,8 @@ hpp, csrf-protection, etc. It also has a bunch of authentication middlewares.
 NODE_ENV = development
 PORT = 5000
 JWT_SECRET = your_jwt_secret
+JWT_ACCESS_TOKEN_EXPIRATION = '3m'
+JWT_REFRESH_TOKEN_EXPIRATION = '30d'
 COOKIE_SECRET = your_cookie_secret
 SESSION_SECRET = your_session_secret
 CSRF_SECRET = your_csrf_secret
