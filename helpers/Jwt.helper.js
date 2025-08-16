@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken'
-import mongoose from 'mongoose'
 
 import ErrorHelper from './Error.helper.js'
 
 import app from '../api.js'
+
+import 'dotenv/config'
 
 /**
  * @typedef {Object} JwtHelper
@@ -14,6 +15,11 @@ import app from '../api.js'
  * @property {Function} VerifyToken - The method for verifying the jwt
  */
 const JwtHelper                             = {}
+
+const Expiration                            = {
+  ACCESS_TOKEN                              : process.env.JWT_ACCESS_TOKEN_EXPIRATION,
+  REFRESH_TOKEN                             : process.env.JWT_REFRESH_TOKEN_EXPIRATION,
+}
 
 // Options for the jwt
 JwtHelper.Options                           = (expiresIn, jwtId) => {
@@ -34,8 +40,8 @@ JwtHelper.Sign                              = (payload, expiresIn, jwtId) => {
 }
 
 // Methods for signing (generating) the access- and refresh token
-JwtHelper.SignAccessToken                   = (payload, jwtId) => JwtHelper.Sign({ userId: payload }, '3m', jwtId)
-JwtHelper.SignRefreshToken                  = (payload) => JwtHelper.Sign({ userId: payload }, '30d')
+JwtHelper.SignAccessToken                   = (payload, jwtId) => JwtHelper.Sign({ userId: payload }, Expiration.ACCESS_TOKEN, jwtId)
+JwtHelper.SignRefreshToken                  = (payload) => JwtHelper.Sign({ userId: payload }, Expiration.REFRESH_TOKEN)
 
 // Method to verify the jwt
 JwtHelper.VerifyToken                       = (token, expiresIn, jwtId) => {
