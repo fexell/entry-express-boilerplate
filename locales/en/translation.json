@@ -69,6 +69,9 @@
 
   "TokenParamNotFound": "Token parameter not found.",
 
+  "AccessTokenInvalid": "Access token is invalid.",
+
+  "RefreshTokenInvalid": "Refresh token is invalid.",
   "RefreshTokenIdInvalid": "Refresh token ID is invalid.",
   "RefreshTokenRevoked": "Refresh token has been revoked.",
   "RefreshTokenIdRequired": "Refresh token ID is required.",

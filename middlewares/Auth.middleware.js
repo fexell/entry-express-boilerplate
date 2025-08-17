@@ -246,7 +246,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
     if(accessToken) {
 
       // Decode the access token
-      const decodedAccessToken              = JwtHelper.VerifyAccessToken(accessToken)
+      const decodedAccessToken              = JwtHelper.ValidateAndDecodeToken(accessToken, 'access')
 
       // If the access token couldn't be decoded, forcefully log out the user
       if(!decodedAccessToken)
@@ -288,7 +288,7 @@ AuthMiddleware.Authenticate                 = async (req, res, next) => {
       }).select('+token')
 
       // Decode the refresh token
-      const decodedRefreshToken             = JwtHelper.VerifyRefreshToken(refreshTokenRecord?.token)
+      const decodedRefreshToken             = JwtHelper.ValidateAndDecodeToken(refreshTokenRecord.token, 'refresh')
 
       // If user id cookie isn't present, issue a new user id cookie, from the decoded refresh token
       if(!userId)

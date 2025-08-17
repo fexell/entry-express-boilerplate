@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { decode } from 'jsonwebtoken'
 
 import ErrorHelper from './Error.helper.js'
 
@@ -13,6 +13,7 @@ import 'dotenv/config'
  * @property {Function} SignAccessToken - The method for signing the access token
  * @property {Function} SignRefreshToken - The method for signing the refresh token
  * @property {Function} VerifyToken - The method for verifying the jwt
+ * @property {Function} ValidateAndDecodeToken - The method for validating and decoding the jwt
  */
 const JwtHelper                             = {}
 
@@ -65,6 +66,21 @@ JwtHelper.VerifyRefreshToken                = (token) => {
     throw ErrorHelper.RefreshTokenNotFound()
 
   return JwtHelper.VerifyToken(token, '30d')
+}
+
+JwtHelper.ValidateAndDecodeToken            = async (token, type) => {
+  try {
+    const decoded                           = type === 'access'
+      ? JwtHelper.VerifyAccessToken(token)
+      : JwtHelper.VerifyRefreshToken(token)
+
+    if(!decoded || !decoded.userId)
+      return null
+
+    return decoded
+  } catch (error) {
+    return null
+  }
 }
 
 export {

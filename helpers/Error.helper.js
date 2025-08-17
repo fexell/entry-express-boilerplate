@@ -184,7 +184,11 @@ ErrorHelper.RouteProtected                  = () => new CustomError(t('RouteProt
 // Token Errors
 ErrorHelper.TokenParamNotFound              = () => new CustomError(t('TokenParamNotFound'), 404)
 
+// Access Token Errors
+ErrorHelper.AccessTokenInvalid              = () => new CustomError(t('AccessTokenInvalid'), 401)
+
 // Refresh Token Errors
+ErrorHelper.RefreshTokenInvalid             = () => new CustomError(t('RefreshTokenInvalid'), 401)
 ErrorHelper.RefreshTokenIdInvalid           = () => new CustomError(t('RefreshTokenIdInvalid'), 400)
 ErrorHelper.RefreshTokenRevoked             = () => new CustomError(t('RefreshTokenRevoked'), 400)
 ErrorHelper.RefreshTokenIdRequired          = () => new CustomError(t('RefreshTokenIdRequired'), 400)
