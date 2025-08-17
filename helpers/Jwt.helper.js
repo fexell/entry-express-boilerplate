@@ -58,14 +58,14 @@ JwtHelper.VerifyAccessToken                 = (token, jwtId) => {
   if(!token)
     throw ErrorHelper.RefreshTokenNotFound()
 
-  return JwtHelper.VerifyToken(token, '3m', jwtId)
+  return JwtHelper.VerifyToken(token, Expiration.ACCESS_TOKEN, jwtId)
 }
 
 JwtHelper.VerifyRefreshToken                = (token) => {
   if(!token)
     throw ErrorHelper.RefreshTokenNotFound()
 
-  return JwtHelper.VerifyToken(token, '30d')
+  return JwtHelper.VerifyToken(token, Expiration.REFRESH_TOKEN)
 }
 
 JwtHelper.ValidateAndDecodeToken            = async (token, type) => {

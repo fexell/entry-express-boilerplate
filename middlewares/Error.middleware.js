@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+import Logger from '../config/Logger.config.js'
+
 /**
  * @typedef {Object} ErrorMiddleware
  * @property {Function} ErrorHandler - The main error handler method
@@ -8,6 +10,8 @@ const ErrorMiddleware                       = {}
 
 // The main error handler
 ErrorMiddleware.ErrorHandler                = (error, req, res, next) => {
+
+  // Logger.error(error)
 
   // If the error is a mongoose validation error
   if(error instanceof mongoose.Error.ValidationError)

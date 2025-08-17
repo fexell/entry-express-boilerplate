@@ -74,6 +74,8 @@ AuthController.Login                        = async (req, res, next) => {
     CookiesHelper.SetUserIdCookie(res, user._id)
     CookiesHelper.SetAccessTokenCookie(res, accessToken)
     CookiesHelper.SetRefreshTokenIdCookie(res, newRefreshTokenRecord._id)
+
+    req.session.jwtId                       = jwtId
       
     // Respond with a success status
     return SuccessHelper.UserLoggedIn(res, user)
