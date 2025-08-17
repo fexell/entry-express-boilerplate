@@ -1,10 +1,10 @@
 import jwt, { decode } from 'jsonwebtoken'
 
+import { JWT_ACCESS_TOKEN_EXPIRATION, JWT_REFRESH_TOKEN_EXPIRATION } from '../config/Environment.config.js'
+
 import ErrorHelper from './Error.helper.js'
 
 import app from '../api.js'
-
-import 'dotenv/config'
 
 /**
  * @typedef {Object} JwtHelper
@@ -18,8 +18,8 @@ import 'dotenv/config'
 const JwtHelper                             = {}
 
 const Expiration                            = {
-  ACCESS_TOKEN                              : process.env.JWT_ACCESS_TOKEN_EXPIRATION || '3m',
-  REFRESH_TOKEN                             : process.env.JWT_REFRESH_TOKEN_EXPIRATION || '30d',
+  ACCESS_TOKEN                              : JWT_ACCESS_TOKEN_EXPIRATION || '3m',
+  REFRESH_TOKEN                             : JWT_REFRESH_TOKEN_EXPIRATION || '30d',
 }
 
 // Options for the jwt
