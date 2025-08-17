@@ -35,8 +35,8 @@ JwtHelper.Options                           = (expiresIn, jwtId) => {
 // Helper method for setting the jwt
 JwtHelper.Sign                              = (payload, expiresIn, jwtId) => {
   return jwt.sign(payload, {
-    key: app.get('PRIVATE_KEY'),
-    passphrase: app.get('JWT_SECRET'),
+    key                                     : app.get('PRIVATE_KEY'),
+    passphrase                              : app.get('JWT_SECRET'),
   }, JwtHelper.Options(expiresIn, jwtId))
 }
 
