@@ -12,14 +12,16 @@ import { t } from 'i18next'
 const SuccessHelper                         = {}
 
 // Response helper
-SuccessHelper.Response                      = (res, message = 'Success', data, statusCode = 200) => {
+SuccessHelper.Response                      = (res, message = 'Success', data, statusCode = 200, key = 'data') => {
+
+  // Set the success message to be used for logging
   res.locals.message                        = message
   
   return res
     .status(statusCode)
     .json({
       message,
-      ...(data ? { data } : {}),
+      ...(data && { [ key ]: data }),
   })
 }
 

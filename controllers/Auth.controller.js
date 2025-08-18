@@ -78,7 +78,7 @@ AuthController.Login                        = async (req, res, next) => {
     req.session.jwtId                       = jwtId
       
     // Respond with a success status
-    return SuccessHelper.UserLoggedIn(res, user)
+    return SuccessHelper.Response(res, t('UserLoggedIn'), user, 200, 'user')
 
   } catch(error) {
     return next(error)
@@ -121,8 +121,8 @@ AuthController.Logout                       = async (req, res, next, forced = fa
 
     // Return a success based on if the user was logged out forcefully, or not
     return forced
-      ? SuccessHelper.UserLoggedOutForcefully(res)
-      : SuccessHelper.UserLoggedOut(res)
+      ? SuccessHelper.Response(res, t('UserLoggedOutForcefully'), null, 200)
+      : SuccessHelper.Response(res, t('UserLoggedOut'), null, 200)
 
   } catch(error) {
     return next(error)
@@ -166,7 +166,7 @@ AuthController.VerifyEmail                  = async (req, res, next) => {
     await user.save()
 
     // Return with a success
-    return SuccessHelper.EmailVerified(res)
+    return SuccessHelper.Response(res, t('EmailVerified'), null, 200)
 
   } catch(error) {
     return next(error)
@@ -199,7 +199,7 @@ AuthController.Units                        = async (req, res, next) => {
       throw ErrorHelper.UnitsNotFound()
 
     // If successful, respond with the units that the user is logged in on
-    return SuccessHelper.Response(res, t('UnitsFound'), units, 200)
+    return SuccessHelper.Response(res, t('UnitsFound'), units, 200, 'units')
 
   } catch(error) {
     return next(error)
