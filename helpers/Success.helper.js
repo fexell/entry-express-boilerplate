@@ -13,6 +13,8 @@ const SuccessHelper                         = {}
 
 // Response helper
 SuccessHelper.Response                      = (res, message = 'Success', data, statusCode = 200) => {
+  res.locals.message                        = message
+  
   return res
     .status(statusCode)
     .json({

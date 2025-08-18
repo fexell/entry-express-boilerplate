@@ -11,8 +11,6 @@ const ErrorMiddleware                       = {}
 // The main error handler
 ErrorMiddleware.ErrorHandler                = (error, req, res, next) => {
 
-  // Logger.error(error)
-
   // If the error is a mongoose validation error
   if(error instanceof mongoose.Error.ValidationError)
     return res.status(400).json({ error: { message: Object.values(error.errors)[ 0 ].message, } }) // Handle one error at the time

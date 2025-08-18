@@ -13,6 +13,10 @@ import mongoose, { Schema } from 'mongoose'
  * @property {Number} responseTime
  */
 const LogSchema                             = new Schema({
+  message                                   : {
+    type                                    : String,
+    required                                : true,
+  },
   method                                    : {
     type                                    : String,
     required                                : true,

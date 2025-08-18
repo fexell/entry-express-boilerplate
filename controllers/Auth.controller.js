@@ -199,9 +199,7 @@ AuthController.Units                        = async (req, res, next) => {
       throw ErrorHelper.UnitsNotFound()
 
     // If successful, respond with the units that the user is logged in on
-    return res.status(200).json({
-      units                                 : units.map(unit => RefreshTokenModel.SerializeRefreshToken(unit)),
-    })
+    return SuccessHelper.Response(res, t('UnitsFound'), units, 200)
 
   } catch(error) {
     return next(error)
@@ -252,9 +250,7 @@ AuthController.ChangePassword               = async (req, res, next) => {
     await user.save()
 
     // Return with a success
-    return res.status(200).json({
-      message                               : t('PasswordChanged'),
-    })
+    return SuccessHelper.Response(res, t('PasswordChanged'), null, 200)
 
   } catch(error) {
     return next(error)
@@ -298,9 +294,7 @@ AuthController.RevokeRefreshToken           = async (req, res, next) => {
     await refreshTokenRecord.save()
 
     // Return with a success
-    return res.status(200).json({
-      message                               : t('RefreshTokenRevoked'),
-    })
+    return SuccessHelper.Response(res, t('RefreshTokenRevoked'), null, 200)
 
   } catch(error) {
     return next(error)

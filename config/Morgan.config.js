@@ -9,9 +9,10 @@ import IpHelper from '../helpers/Ip.helper.js'
 morgan.token('ipAddress', (req) => IpHelper.GetClientIp(req))
 morgan.token('userId', (req) => req.userId || CookiesHelper.GetUserIdCookie(req) || 'unknown')
 morgan.token('status', (req, res) => res.statusCode)
+morgan.token('message', (req, res) => res.locals.message)
 
 // Morgan middleware
-const MorganMiddleware                      = morgan(':method :url :status :ipAddress :userId :user-agent :response-time', {
+const MorganMiddleware                      = morgan(':method :url :status :ipAddress :userId :user-agent :response-time :message', {
   stream                                    : {
     write                                   : async (message) => {
       // Parse the message
@@ -26,6 +27,7 @@ const MorganMiddleware                      = morgan(':method :url :status :ipAd
         userId                              : log[ 4 ],
         userAgent                           : log[ 5 ],
         responseTime                        : Number(log[ 6 ]),
+        message                             : log.slice(7).join(' '),
       }
 
       // Create the log in the database

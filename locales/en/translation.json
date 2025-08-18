@@ -8,17 +8,20 @@
   "UserAlreadyLoggedOut": "You are currently logged out.",
   "UserIdInvalid": "User ID is invalid.",
   "UserIdNotFound": "User ID not found.",
-  "UserCreated": "User created successfully.",
   "UserLoggedIn": "User logged in successfully.",
   "UserLoggedOut": "User logged out successfully.",
   "UserLoggedOutForcefully": "You have been forcefully logged out.",
   "UserNothingToUpdate": "You haven't updated anything.",
-
+  
+  "UserCreated": "User created successfully.",
+  "UserFound": "User found successfully.",
+  "UsersFound": "Users found successfully.",
   "UserUpdated": "User updated successfully.",
 
   "TargetIdNotFound": "Target user ID not found.",
   "TargetIdInvalid": "Target user ID is invalid.",
 
+  "UnitsFound": "Units found successfully.",
   "UnitsNotFound": "Could not find any units you're logged in on.",
 
   "EmailRequired": "Email is required.",

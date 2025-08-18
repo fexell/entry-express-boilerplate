@@ -7,6 +7,7 @@ import ErrorHelper from '../helpers/Error.helper.js'
 import MailerHelper from '../helpers/Mailer.helper.js'
 import PasswordHelper from '../helpers/Password.helper.js'
 import StringHelper from '../helpers/String.helper.js'
+import SuccessHelper from '../helpers/Success.helper.js'
 import UserHelper from '../helpers/User.helper.js'
 
 /**
@@ -29,9 +30,7 @@ UserController.Get                          = async (req, res, next) => {
     const user                              = await UserHelper.GetUserById(req, false, true)
 
     // Return the response with the user's information
-    return res.status(200).json({
-      user                                  : UserModel.SerializeUser(user),
-    })
+    return SuccessHelper.Response(res, t('UserFound'), UserModel.SerializeUser(user), 200)
 
   } catch(error) {
     return next(error)
@@ -49,9 +48,7 @@ UserController.GetAll                       = async (req, res, next) => {
     const users                             = !sort ? await UserModel.find().lean() : await UserModel.find().sort(sort).lean()
 
     // Return the response with the users' information
-    return res.status(200).json({
-      users                                 : users.map(user => UserModel.SerializeUser(user)),
-    })
+    return SuccessHelper.Response(res, t('UsersFound'), users.map(user => UserModel.SerializeUser(user)), 200)
 
   } catch(error) {
     return next(error)
@@ -73,9 +70,7 @@ UserController.GetByUserId                  = async (req, res, next) => {
       throw ErrorHelper.UserNotFound()
 
     // Return the response with the user's information
-    return res.status(200).json({
-      user                                  : UserModel.SerializeUser(user),
-    })
+    return SuccessHelper.Response(res, t('UserFound'), UserModel.SerializeUser(user), 200)
 
   } catch(error) {
     return next(error)
@@ -104,9 +99,7 @@ UserController.GetByUsername                = async (req, res, next) => {
       throw ErrorHelper.UserNotFound()
 
     // Return the response with the user's information
-    return res.status(200).json({
-      user                                  : UserModel.SerializeUser(user),
-    })
+    return SuccessHelper.Response(res, t('UserFound'), UserModel.SerializeUser(user), 200)
 
   } catch(error) {
     return next(error)
@@ -130,9 +123,7 @@ UserController.GetByEmail                   = async (req, res, next) => {
       throw ErrorHelper.UserNotFound()
 
     // Return the response with the user's information
-    return res.status(200).json({
-      user                                  : UserModel.SerializeUser(user),
-    })
+    return SuccessHelper.Response(res, t('UserFound'), UserModel.SerializeUser(user), 200)
 
   } catch(error) {
     
@@ -181,10 +172,7 @@ UserController.Create                       = async (req, res, next) => {
     await mail.Send() */
 
     // Return the response with the new user's information
-    return res.status(201).json({
-      message                               : t('UserCreated'),
-      user                                  : UserModel.SerializeUser(newUser),
-    })
+    return SuccessHelper.Response(res, t('UserCreated'), UserModel.SerializeUser(newUser), 201)
       
   } catch(error) {
     return next(error)
@@ -233,10 +221,7 @@ UserController.Update                       = async (req, res, next) => {
     await user.save()
 
     // Return the response
-    return res.status(200).json({
-      message                               : t('UserUpdated'),
-      user                                  : UserModel.SerializeUser(user),
-    })
+    return SuccessHelper.Response(res, t('UserUpdated'), UserModel.SerializeUser(user), 200)
     
   } catch(error) {
     return next(error)
